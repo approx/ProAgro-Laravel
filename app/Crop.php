@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Crop extends Model
 {
+    protected $fillable = ['field_id','initial_date','final_date','culture_id'];
+
     public function field()
     {
       return $this->belongsTo('App\Field');

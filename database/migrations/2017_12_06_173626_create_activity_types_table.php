@@ -16,8 +16,8 @@ class CreateActivityTypesTable extends Migration
         Schema::create('activity_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('unity_value');
-            $table->string('value_per_ha');
+            $table->double('unity_value');
+            $table->double('value_per_ha');
             $table->timestamps();
         });
     }

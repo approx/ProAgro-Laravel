@@ -15,11 +15,11 @@ class CreateFieldsTable extends Migration
     {
         Schema::create('fields', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('actual_crop');
+            $table->integer('actual_crop')->nullable();
             $table->string('name',30);
             $table->integer('area');
-            $table->bigInteger('lat');
-            $table->bigInteger('lng');
+            $table->double('lat',8,3);
+            $table->double('lng',8,3);
             $table->integer('farm_id');
             $table->timestamps();
         });

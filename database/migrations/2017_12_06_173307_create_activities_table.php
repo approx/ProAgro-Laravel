@@ -18,10 +18,10 @@ class CreateActivitiesTable extends Migration
             $table->date('operation_date');
             $table->date('payment_date');
             $table->integer('activity_type_id');
-            $table->integer('total_value');
-            $table->integer('quantity');
+            $table->double('total_value');
+            $table->double('quantity');
             $table->integer('unity_id');
-            $table->integer('dose');
+            $table->double('dose');
             $table->integer('crop_id');
             $table->timestamps();
         });

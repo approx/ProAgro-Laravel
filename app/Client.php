@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
+    protected $fillable = ['name','state_id','email','phone','phone_2','inscription_number','cpf_cnpj','address_id','user_id'];
+
     public function farms()
     {
       return $this->hasMany('App\Farm');

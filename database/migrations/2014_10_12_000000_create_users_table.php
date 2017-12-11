@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->integer('role_id');
             $table->string('CPF',11)->unique();
             $table->string('phone',11);
-            $table->boolean('changePassword');
+            $table->boolean('change_password')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Field extends Model
 {
-    public function actual_crop()//possivel erro por causa do nome
+    protected $fillable = ['actual_crop','name','area','lat','lng','farm_id'];
+
+    public function crop()
     {
       return $this->belongsTo('App\Crop','actual_crop');
     }
