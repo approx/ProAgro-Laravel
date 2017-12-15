@@ -41,4 +41,9 @@ class ClientController extends Controller
     {
       return $client->farms;
     }
+
+    public function user(Client $client)
+    {
+      return $client->user;
+    }
 }

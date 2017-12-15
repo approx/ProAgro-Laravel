@@ -34,4 +34,9 @@ class AddressController extends Controller
       $address->delete();
       return 'Address deleted';
     }
+
+    public function city(Address $address)
+    {
+      return $address->city;
+    }
 }

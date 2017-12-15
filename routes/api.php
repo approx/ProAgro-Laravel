@@ -20,9 +20,10 @@ use Illuminate\Http\Request;
 Route::get('/clients','ClientController@index')->middleware('auth:api');
 Route::get('/client/{client}','ClientController@get')->middleware('auth:api');
 Route::get('/client/{client}/farms','ClientController@farms')->middleware('auth:api');
+Route::get('/client/{client}/user','ClientController@user')->middleware('auth:api');
 Route::put('/client/{client}','ClientController@update')->middleware('auth:api');
 Route::delete('/client/{client}','ClientController@delete')->middleware('auth:api');
-Route::post('/client','ClientController@store')->middleware('auth:api');
+Route::post('/clients','ClientController@store')->middleware('auth:api');
 
 Route::get('/states','StateController@index')->middleware('auth:api');
 Route::delete('/state/{state}','StateController@delete')->middleware('auth:api');
@@ -31,8 +32,9 @@ Route::get('/cities','CityController@index')->middleware('auth:api');
 Route::delete('/city/{city}','StateController@delete')->middleware('auth:api');
 
 Route::get('/addresses','AddressController@index')->middleware('auth:api');
-Route::post('/address','AddressController@store')->middleware('auth:api');
+Route::post('/addresses','AddressController@store')->middleware('auth:api');
 Route::get('/address/{address}','AddressController@get')->middleware('auth:api');
+Route::get('/address/{address}/city','AddressController@city')->middleware('auth:api');
 Route::delete('/address/{address}','AddressController@delete')->middleware('auth:api');
 Route::put('/address/{address}','AddressController@update')->middleware('auth:api');
 
@@ -42,7 +44,7 @@ Route::get('/farm/{farm}/fields','FarmController@fields')->middleware('auth:api'
 Route::get('/farm/{farm}/cultures','FarmController@cultures')->middleware('auth:api');
 Route::put('/farm/{farm}','FarmController@update')->middleware('auth:api');
 Route::delete('/farm/{farm}','FarmController@delete')->middleware('auth:api');
-Route::post('/farm','FarmController@store')->middleware('auth:api');
+Route::post('/farms','FarmController@store')->middleware('auth:api');
 
 Route::get('/cultures','CultureController@index')->middleware('auth:api');
 Route::post('/cultures','CultureController@store')->middleware('auth:api');
@@ -99,3 +101,4 @@ Route::get('/user/{user}/clients','UserController@clients')->middleware('auth:ap
 Route::put('/user/{user}','UserController@update')->middleware('auth:api');
 Route::delete('/user/{user}','UserController@delete')->middleware('auth:api');
 Route::post('/users','UserController@store')->middleware('auth:api');
+Route::get('/current_user','UserController@actualUser')->middleware('auth:api');

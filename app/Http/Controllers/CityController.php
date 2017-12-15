@@ -14,7 +14,7 @@ class CityController extends Controller
 
   public function delete(City $city)
   {
-    $city->delete()
+    $city->delete();
     return 'City deleted';
   }
 }
