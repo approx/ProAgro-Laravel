@@ -21,11 +21,13 @@ Route::get('/clients','ClientController@index')->middleware('auth:api');
 Route::get('/client/{client}','ClientController@get')->middleware('auth:api');
 Route::get('/client/{client}/farms','ClientController@farms')->middleware('auth:api');
 Route::get('/client/{client}/user','ClientController@user')->middleware('auth:api');
+Route::get('/client/{client}/address','ClientController@address')->middleware('auth:api');
 Route::put('/client/{client}','ClientController@update')->middleware('auth:api');
 Route::delete('/client/{client}','ClientController@delete')->middleware('auth:api');
 Route::post('/clients','ClientController@store')->middleware('auth:api');
 
 Route::get('/states','StateController@index')->middleware('auth:api');
+Route::get('/state/{state}','StateController@get')->middleware('auth:api');
 Route::delete('/state/{state}','StateController@delete')->middleware('auth:api');
 
 Route::get('/cities','CityController@index')->middleware('auth:api');
@@ -42,6 +44,8 @@ Route::get('/farms','FarmController@index')->middleware('auth:api');
 Route::get('/farm/{farm}','FarmController@get')->middleware('auth:api');
 Route::get('/farm/{farm}/fields','FarmController@fields')->middleware('auth:api');
 Route::get('/farm/{farm}/cultures','FarmController@cultures')->middleware('auth:api');
+Route::get('/farm/{farm}/client','FarmController@client')->middleware('auth:api');
+Route::get('/farm/{farm}/address','FarmController@address')->middleware('auth:api');
 Route::put('/farm/{farm}','FarmController@update')->middleware('auth:api');
 Route::delete('/farm/{farm}','FarmController@delete')->middleware('auth:api');
 Route::post('/farms','FarmController@store')->middleware('auth:api');

@@ -17,4 +17,9 @@ class StateController extends Controller
       $state->delete();
       return 'State deleted';
     }
+
+    public function get(State $state)
+    {
+      return $state;
+    }
 }

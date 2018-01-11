@@ -8,6 +8,8 @@ class Farm extends Model
 {
     protected $fillable=['name','address_id','client_id'];
 
+    protected $hidden = ['address_id','client_id'];
+
     public function fields()
     {
       return $this->hasMany('App\Field');

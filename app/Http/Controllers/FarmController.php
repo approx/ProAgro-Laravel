@@ -9,12 +9,16 @@ class FarmController extends Controller
 {
   public function index()
   {
-    return Farm::all();
+    return Farm::with(['cultures','fields','address','client.address'])->get();
   }
 
   public function store()
   {
-    return Farm::create(request()->all());
+    $farm = Farm::create(request()->all());
+    if(request()->cultures){
+      $farm->cultures()->attach(preg_split("/;/",request()->cultures));
+    }
+    return $farm;
   }
 
   public function get(Farm $farm)
@@ -30,6 +34,16 @@ class FarmController extends Controller
   public function cultures(Farm $farm)
   {
     return $farm->cultures;
+  }
+
+  public function address(Farm $farm)
+  {
+    return $farm->address;
+  }
+
+  public function client(Farm $farm)
+  {
+    return $farm->client;
   }
 
   public function update(Farm $farm)

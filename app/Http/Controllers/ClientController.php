@@ -11,7 +11,7 @@ class ClientController extends Controller
 {
     public function index()
     {
-      return Client::all();
+      return Client::with(['farms','address.city.state','user:id,name'])->get();
     }
 
     public function store()
@@ -21,6 +21,9 @@ class ClientController extends Controller
 
     public function get(Client $client)
     {
+      $client->farms;
+      $client->address->city->state;
+      $client->user;
       return $client;
     }
 
@@ -45,5 +48,10 @@ class ClientController extends Controller
     public function user(Client $client)
     {
       return $client->user;
+    }
+
+    public function address(Client $client)
+    {
+      return $client->address;
     }
 }
