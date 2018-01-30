@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Unity extends Model
 {
-  protected $fillable= ['name'];
+  protected $fillable= ['id','name'];
+  protected $primaryKey = 'id';
+  public $incrementing = false;
 
     public function activities()
     {

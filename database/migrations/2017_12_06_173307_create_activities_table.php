@@ -17,10 +17,11 @@ class CreateActivitiesTable extends Migration
             $table->increments('id');
             $table->date('operation_date');
             $table->date('payment_date');
-            $table->integer('activity_type_id');
+            $table->string('activity_type_id',10);
             $table->double('total_value');
+            $table->double('value_per_ha');
             $table->double('quantity');
-            $table->integer('unity_id');
+            $table->string('unity_id',10);
             $table->double('dose');
             $table->integer('crop_id');
             $table->timestamps();

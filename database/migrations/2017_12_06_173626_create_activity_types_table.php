@@ -14,11 +14,11 @@ class CreateActivityTypesTable extends Migration
     public function up()
     {
         Schema::create('activity_types', function (Blueprint $table) {
-            $table->increments('id');
+            $table->string('id',10);
             $table->string('name');
             $table->double('unity_value');
-            $table->double('value_per_ha');
             $table->timestamps();
+            $table->primary('id');
         });
     }
 

@@ -9,7 +9,7 @@ class FieldController extends Controller
 {
   public function index()
   {
-    return Field::all();
+    return Field::with(['crop.field.farm','crops','farm.address.city.state','farm.client'])->orderBy('name')->get();
   }
 
   public function store()
@@ -19,6 +19,12 @@ class FieldController extends Controller
 
   public function get(Field $field)
   {
+    if($field->crop){
+      $field->crop->field->farm;
+    }
+    $field->crops;
+    $field->farm->client;
+    $field->farm->address->city->state;
     return $field;
   }
 

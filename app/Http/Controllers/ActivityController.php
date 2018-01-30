@@ -9,7 +9,7 @@ class ActivityController extends Controller
 {
   public function index()
   {
-    return Activity::all();
+    return Activity::with(['crop.field.farm.client','activity_type','unity'])->get();
   }
 
   public function store()
@@ -19,6 +19,9 @@ class ActivityController extends Controller
 
   public function get(Activity $activity)
   {
+    $activity->crop->field->farm->client;
+    $activity->activity_type;
+    $activity->unity;
     return $activity;
   }
 

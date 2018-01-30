@@ -16,6 +16,7 @@ class CreateCropsTable extends Migration
         Schema::create('crops', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('field_id');
+            $table->string('name',45);
             $table->integer('culture_id');
             $table->date('initial_date');
             $table->date('final_date');
