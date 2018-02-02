@@ -106,3 +106,9 @@ Route::put('/user/{user}','UserController@update')->middleware('auth:api');
 Route::delete('/user/{user}','UserController@delete')->middleware('auth:api');
 Route::post('/users','UserController@store')->middleware('auth:api');
 Route::get('/current_user','UserController@actualUser')->middleware('auth:api');
+
+Route::get('/inventories','InventoryItenController@index')->middleware('auth:api');
+Route::get('/inventory/{inventoryIten}','InventoryItenController@get')->middleware('auth:api');
+Route::post('/inventories','InventoryItenController@store');
+Route::put('/inventory/{inventoryIten}','InventoryItenController@update')->middleware('auth:api');
+Route::delete('/inventory/{inventoryIten}','InventoryItenController@delete')->middleware('auth:api');

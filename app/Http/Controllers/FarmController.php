@@ -9,7 +9,7 @@ class FarmController extends Controller
 {
   public function index()
   {
-    return Farm::with(['cultures','fields','address.city.state','client.address'])->orderBy('name')->get();
+    return Farm::with(['cultures','fields','address.city.state','client.address','inventory_itens'])->orderBy('name')->get();
   }
 
   public function store()
@@ -23,6 +23,7 @@ class FarmController extends Controller
 
   public function get(Farm $farm)
   {
+    $farm->inventory_itens;
     $farm->cultures;
     $farm->fields;
     $farm->address->city->state;
