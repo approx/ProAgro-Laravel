@@ -18,6 +18,10 @@ class CreateFarmsTable extends Migration
             $table->string('name',45);
             $table->integer('address_id');
             $table->integer('client_id');
+            $table->double('ha');
+            $table->double('value_ha');
+            $table->double('capital_tied');
+            $table->double('remuneration');
             $table->timestamps();
         });
     }

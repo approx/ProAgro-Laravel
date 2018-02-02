@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Farm extends Model
 {
-    protected $fillable=['name','address_id','client_id'];
+    protected $fillable=['name','address_id','client_id','ha','value_ha','capital_tied','remuneration'];
 
     protected $hidden = ['address_id','client_id'];
 
