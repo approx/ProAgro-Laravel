@@ -4,12 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\InventoryIten;
+use Illuminate\Support\Facades\Auth;
 
 class InventoryItenController extends Controller
 {
     public function index()
     {
-      return InventoryIten::with('farm')->orderBy('name')->get();
+      $itens = InventoryIten::with('farm.client.user:id')->orderBy('name')->get();
+
+      $filteres = $itens->filter(function($value,$key){
+        return $value->farm->client->user->id === Auth::id();
+      });
+
+      return $filtered->values();
     }
 
     public function store()

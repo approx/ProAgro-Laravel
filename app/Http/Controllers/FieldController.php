@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Field;
+use Illuminate\Support\Facades\Auth;
 
 class FieldController extends Controller
 {
   public function index()
   {
-    return Field::with(['crop.field.farm','crops','farm.address.city.state','farm.client'])->orderBy('name')->get();
+    $fields = Field::with(['crop.field.farm','crops','farm.address.city.state','farm.client.user:id'])->orderBy('name')->get();
+    $filtered = $fields->filter(function($value,$key){
+      return $value->farm->client->user->id === Auth::id();
+    });
+
+    return $filtered->values();
   }
 
   public function store()

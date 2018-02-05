@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Farm;
+use Illuminate\Support\Facades\Auth;
 
 class FarmController extends Controller
 {
   public function index()
   {
-    return Farm::with(['cultures','fields','address.city.state','client.address','inventory_itens'])->orderBy('name')->get();
+    $farms = Farm::with(['cultures','fields','address.city.state','client.address','client.user','inventory_itens'])->orderBy('name')->get();
+    $filtered = $farms->filter(function ($value,$key) {
+      return $value->client->user->id === Auth::id();
+    });
+
+    return $filtered->values();
   }
 
   public function store()

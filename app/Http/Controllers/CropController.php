@@ -6,12 +6,18 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Crop;
 use App\Field;
+use Illuminate\Support\Facades\Auth;
 
 class CropController extends Controller
 {
   public function index()
   {
-    return Crop::with(['field.farm.address','culture','activities','field.farm.client'])->get();
+    $crops = Crop::with(['field.farm.address','culture','activities','field.farm.client.user:id'])->get();
+    $filtered = $crops->filter(function($value,$key){
+      return $value->field->farm->client->user->id === Auth::id();
+    });
+
+    return $filtered->values();
   }
 
   public function store()

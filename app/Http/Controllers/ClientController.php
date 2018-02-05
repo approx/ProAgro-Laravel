@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Database\QueryException;
 use App\Client;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
     public function index()
     {
-      return Client::with(['farms','address.city.state','user:id,name'])->get();
+      return Client::with(['farms','address.city.state','user:id,name'])->where('user_id',Auth::id())->get();
     }
 
     public function store()

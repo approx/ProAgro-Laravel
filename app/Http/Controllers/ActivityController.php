@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Activity;
+use Illuminate\Support\Facades\Auth;
 
 class ActivityController extends Controller
 {
   public function index()
   {
-    return Activity::with(['crop.field.farm.client','activity_type','unity'])->get();
+    $activities = Activity::with(['crop.field.farm.client.user:id','activity_type','unity'])->get();
+    $filtered = $activities->filter(function($value,$key){
+      return $value->crop->field->farm->client->user->id === Auth::id();
+    });
+
+    return $filtered->values();
   }
 
   public function store()
