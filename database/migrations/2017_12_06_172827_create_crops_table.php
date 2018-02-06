@@ -20,6 +20,8 @@ class CreateCropsTable extends Migration
             $table->integer('culture_id');
             $table->date('initial_date');
             $table->date('final_date');
+            $table->double('expected');
+            $talbe->double('sack');
             $table->timestamps();
         });
     }

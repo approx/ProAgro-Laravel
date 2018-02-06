@@ -7,7 +7,7 @@ use Carbon\Carbon;
 
 class Crop extends Model
 {
-    protected $fillable = ['field_id','initial_date','final_date','culture_id','name'];
+    protected $fillable = ['field_id','initial_date','final_date','culture_id','name','expected','sack'];
 
     protected $dates = [
         'created_at',
