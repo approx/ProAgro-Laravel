@@ -34,6 +34,7 @@ class CropController extends Controller
 
   public function get(Crop $crop)
   {
+    if($crop->field->farm->client->user->id!=Auth::id()) return response('you dont have access to this crop',400);
     $crop->field->farm->address;
     $crop->culture;
     $crop->activities;
@@ -43,6 +44,8 @@ class CropController extends Controller
 
   public function update(Crop $crop)
   {
+    if($crop->field->farm->client->user->id!=Auth::id()) return response('you dont have access to this crop',400);
+
     $crop->fill(request()->all());
     $crop->save();
     return $crop;
@@ -50,22 +53,9 @@ class CropController extends Controller
 
   public function delete(Crop $crop)
   {
+    if($crop->field->farm->client->user->id!=Auth::id()) return response('you dont have access to this crop',400);
+
     $crop->delete();
     return 'crop deleted';
-  }
-
-  public function field(Crop $crop)
-  {
-    return $crop->field;
-  }
-
-  public function culture(Crop $crop)
-  {
-    return $crop->culture;
-  }
-
-  public function activities(Crop $crop)
-  {
-    return $crop->activities;
   }
 }

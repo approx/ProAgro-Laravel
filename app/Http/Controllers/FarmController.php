@@ -29,6 +29,7 @@ class FarmController extends Controller
 
   public function get(Farm $farm)
   {
+    if($farm->client->user->id!=Auth::id()) return response('you dont have access to this farm',400);
     $farm->inventory_itens;
     $farm->cultures;
     $farm->fields;
@@ -37,28 +38,9 @@ class FarmController extends Controller
     return $farm;
   }
 
-  public function fields(Farm $farm)
-  {
-    return $farm->fields;
-  }
-
-  public function cultures(Farm $farm)
-  {
-    return $farm->cultures;
-  }
-
-  public function address(Farm $farm)
-  {
-    return $farm->address;
-  }
-
-  public function client(Farm $farm)
-  {
-    return $farm->client;
-  }
-
   public function update(Farm $farm)
   {
+    if($farm->client->user->id!=Auth::id()) return response('you dont have access to this farm',400);
     $farm->fill(request()->all());
     $farm->save();
     return $farm;
@@ -66,6 +48,7 @@ class FarmController extends Controller
 
   public function delete(Farm $farm)
   {
+    if($farm->client->user->id!=Auth::id()) return response('you dont have access to this farm',400);
     $farm->delete();
     return 'Farm deleted';
   }

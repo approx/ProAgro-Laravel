@@ -22,14 +22,17 @@ class ClientController extends Controller
 
     public function get(Client $client)
     {
+      $client->user;
+      if($client->user->id!=Auth::id()) return response('you dont have access to this client',400);
       $client->farms;
       $client->address->city->state;
-      $client->user;
       return $client;
     }
 
     public function update(Client $client)
     {
+      $client->user;
+      if($client->user->id!=Auth::id()) return response('you dont have access to this client',400);
       $client->fill(request()->all());
       $client->save();
       return $client;
@@ -37,22 +40,9 @@ class ClientController extends Controller
 
     public function delete(Client $client)
     {
+      $client->user;
+      if($client->user->id!=Auth::id()) return response('you dont have access to this client',400);
       $client->delete();
       return 'client deleted';
-    }
-
-    public function farms(Client $client)
-    {
-      return $client->farms;
-    }
-
-    public function user(Client $client)
-    {
-      return $client->user;
-    }
-
-    public function address(Client $client)
-    {
-      return $client->address;
     }
 }

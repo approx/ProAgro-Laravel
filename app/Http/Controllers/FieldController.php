@@ -25,6 +25,7 @@ class FieldController extends Controller
 
   public function get(Field $field)
   {
+    if($field->farm->client->user->id!=Auth::id()) return response('you dont have access to this field',400);
     if($field->crop){
       $field->crop->field->farm;
     }
@@ -36,6 +37,7 @@ class FieldController extends Controller
 
   public function update(Field $field)
   {
+    if($field->farm->client->user->id!=Auth::id()) return response('you dont have access to this field',400);
     $field->fill(request()->all());
     $field->save();
     return $field;
@@ -43,22 +45,8 @@ class FieldController extends Controller
 
   public function delete(Field $field)
   {
+    if($field->farm->client->user->id!=Auth::id()) return response('you dont have access to this field',400);
     $field->delete();
     return 'field deleted';
-  }
-
-  public function crops(Field $field)
-  {
-    return $field->crops;
-  }
-
-  public function crop(Field $field)
-  {
-    return $field->crop;
-  }
-
-  public function farm(Field $field)
-  {
-    return $field->farm;
   }
 }
