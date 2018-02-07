@@ -29,7 +29,7 @@ class User extends Authenticatable
     ];
 
     public function findForPassport($username) {
-        return $this->where('CPF', $username)->first();
+        return $this->orWhere('CPF', $username)->orWhere('email',$username)->first();
     }
 
     public function role()
