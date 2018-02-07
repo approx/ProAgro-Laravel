@@ -34,6 +34,7 @@ class ActivityController extends Controller
 
   public function update(Activity $activity)
   {
+    
     if($activity->crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this activity',400);
 
     $activity->fill(request()->all());

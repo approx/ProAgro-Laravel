@@ -42,6 +42,11 @@ class User extends Authenticatable
       return $this->belongsTo('App\Address');
     }
 
+    public function client()
+    {
+      return $this->hasOne('App\Client','client_user');
+    }
+
     public function clients()
     {
       return $this->hasMany('App\Client');
