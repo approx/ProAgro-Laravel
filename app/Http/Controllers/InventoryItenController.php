@@ -13,7 +13,7 @@ class InventoryItenController extends Controller
       $itens = InventoryIten::with('farm.client.user:id')->orderBy('name')->get();
 
       $filteres = $itens->filter(function($value,$key){
-        return $value->farm->client->user->id === Auth::id();
+        return $value->farm->client->user->id === Auth::id() || Auth::user()->role->name=='master';
       });
 
       return $filtered->values();
@@ -26,13 +26,13 @@ class InventoryItenController extends Controller
 
     public function get(InventoryIten $inventoryIten)
     {
-      if($inventoryIten->farm->client->user->id!=Auth::id()) return response('you dont have access to this iten',400);
+      if($inventoryIten->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this iten',400);
       return $inventoryIten;
     }
 
     public function update(InventoryIten $inventoryIten)
     {
-      if($inventoryIten->farm->client->user->id!=Auth::id()) return response('you dont have access to this iten',400);
+      if($inventoryIten->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this iten',400);
 
       $inventoryIten->fill(request()->all());
       $inventoryIten->save();
@@ -41,8 +41,8 @@ class InventoryItenController extends Controller
 
     public function delete(InventoryIten $inventoryIten)
     {
-      if($inventoryIten->farm->client->user->id!=Auth::id()) return response('you dont have access to this iten',400);
-      
+      if($inventoryIten->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this iten',400);
+
       $inventoryIten->delete();
       return 'Invetory iten deleted';
     }

@@ -12,7 +12,7 @@ class ActivityController extends Controller
   {
     $activities = Activity::with(['crop.field.farm.client.user:id','activity_type','unity'])->get();
     $filtered = $activities->filter(function($value,$key){
-      return $value->crop->field->farm->client->user->id === Auth::id();
+      return $value->crop->field->farm->client->user->id === Auth::id() || Auth::user()->role->name=='master';
     });
 
     return $filtered->values();
@@ -25,7 +25,7 @@ class ActivityController extends Controller
 
   public function get(Activity $activity)
   {
-    if($activity->crop->field->farm->client->user->id!=Auth::id()) return response('you dont have access to this activity',400);
+    if($activity->crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this activity',400);
     $activity->crop->field->farm->client;
     $activity->activity_type;
     $activity->unity;
@@ -34,7 +34,7 @@ class ActivityController extends Controller
 
   public function update(Activity $activity)
   {
-    if($activity->crop->field->farm->client->user->id!=Auth::id()) return response('you dont have access to this activity',400);
+    if($activity->crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this activity',400);
 
     $activity->fill(request()->all());
     $activity->save();
@@ -43,7 +43,7 @@ class ActivityController extends Controller
 
   public function delete(Activity $activity)
   {
-    if($activity->crop->field->farm->client->user->id!=Auth::id()) return response('you dont have access to this activity',400);
+    if($activity->crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this activity',400);
 
     $activity->delete();
     return 'activity deleted';

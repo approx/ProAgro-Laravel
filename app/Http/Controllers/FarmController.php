@@ -12,7 +12,7 @@ class FarmController extends Controller
   {
     $farms = Farm::with(['cultures','fields','address.city.state','client.address','client.user','inventory_itens'])->orderBy('name')->get();
     $filtered = $farms->filter(function ($value,$key) {
-      return $value->client->user->id === Auth::id();
+      return $value->client->user->id === Auth::id() || Auth::user()->role->name=='master';
     });
 
     return $filtered->values();
@@ -29,7 +29,7 @@ class FarmController extends Controller
 
   public function get(Farm $farm)
   {
-    if($farm->client->user->id!=Auth::id()) return response('you dont have access to this farm',400);
+    if($farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this farm',400);
     $farm->inventory_itens;
     $farm->cultures;
     $farm->fields;
@@ -40,7 +40,7 @@ class FarmController extends Controller
 
   public function update(Farm $farm)
   {
-    if($farm->client->user->id!=Auth::id()) return response('you dont have access to this farm',400);
+    if($farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this farm',400);
     $farm->fill(request()->all());
     $farm->save();
     return $farm;
@@ -48,7 +48,7 @@ class FarmController extends Controller
 
   public function delete(Farm $farm)
   {
-    if($farm->client->user->id!=Auth::id()) return response('you dont have access to this farm',400);
+    if($farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this farm',400);
     $farm->delete();
     return 'Farm deleted';
   }

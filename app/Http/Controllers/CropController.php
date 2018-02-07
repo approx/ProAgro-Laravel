@@ -14,7 +14,7 @@ class CropController extends Controller
   {
     $crops = Crop::with(['field.farm.address','culture','activities','field.farm.client.user:id'])->get();
     $filtered = $crops->filter(function($value,$key){
-      return $value->field->farm->client->user->id === Auth::id();
+      return $value->field->farm->client->user->id === Auth::id() || Auth::user()->role->name=='master';
     });
 
     return $filtered->values();
@@ -34,7 +34,7 @@ class CropController extends Controller
 
   public function get(Crop $crop)
   {
-    if($crop->field->farm->client->user->id!=Auth::id()) return response('you dont have access to this crop',400);
+    if($crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this crop',400);
     $crop->field->farm->address;
     $crop->culture;
     $crop->activities;
@@ -44,7 +44,7 @@ class CropController extends Controller
 
   public function update(Crop $crop)
   {
-    if($crop->field->farm->client->user->id!=Auth::id()) return response('you dont have access to this crop',400);
+    if($crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this crop',400);
 
     $crop->fill(request()->all());
     $crop->save();
@@ -53,7 +53,7 @@ class CropController extends Controller
 
   public function delete(Crop $crop)
   {
-    if($crop->field->farm->client->user->id!=Auth::id()) return response('you dont have access to this crop',400);
+    if($crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this crop',400);
 
     $crop->delete();
     return 'crop deleted';

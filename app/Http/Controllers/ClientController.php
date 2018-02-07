@@ -12,6 +12,8 @@ class ClientController extends Controller
 {
     public function index()
     {
+      if(Auth::user()->role->name=='master') return Client::with(['farms','address.city.state','user.role'])->get();
+
       return Client::with(['farms','address.city.state','user:id,name'])->where('user_id',Auth::id())->get();
     }
 
@@ -23,7 +25,7 @@ class ClientController extends Controller
     public function get(Client $client)
     {
       $client->user;
-      if($client->user->id!=Auth::id()) return response('you dont have access to this client',400);
+      if($client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this client',400);
       $client->farms;
       $client->address->city->state;
       return $client;
@@ -32,7 +34,7 @@ class ClientController extends Controller
     public function update(Client $client)
     {
       $client->user;
-      if($client->user->id!=Auth::id()) return response('you dont have access to this client',400);
+      if($client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this client',400);
       $client->fill(request()->all());
       $client->save();
       return $client;
@@ -41,7 +43,7 @@ class ClientController extends Controller
     public function delete(Client $client)
     {
       $client->user;
-      if($client->user->id!=Auth::id()) return response('you dont have access to this client',400);
+      if($client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this client',400);
       $client->delete();
       return 'client deleted';
     }
