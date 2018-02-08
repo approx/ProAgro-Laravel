@@ -42,6 +42,8 @@ class FarmController extends Controller
   {
     if($farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this farm',400);
     $farm->fill(request()->all());
+    $farm->cultures()->detach();
+    $farm->cultures()->attach(preg_split("/;/",request()->cultures));
     $farm->save();
     return $farm;
   }
