@@ -82,7 +82,7 @@ Route::get('/user/{user}','UserController@get')->middleware('auth:api','only.mas
 Route::put('/user/{user}','UserController@update')->middleware('auth:api','only.master');
 Route::delete('/user/{user}','UserController@delete')->middleware('auth:api','only.master');
 Route::post('/users','UserController@store')->middleware('auth:api','only.master');
-Route::get('/current_user','UserController@actualUser')->middleware('auth:api','only.master');
+Route::get('/current_user','UserController@actualUser')->middleware('auth:api');
 
 Route::get('/inventories','InventoryItenController@index')->middleware('auth:api');
 Route::get('/inventory/{inventoryIten}','InventoryItenController@get')->middleware('auth:api');
