@@ -23,9 +23,4 @@ class Address extends Model
     {
       return $this->hasOne('App\Client');
     }
-
-    public function farm()
-    {
-      return $this->hasOne('App\Farm');
-    }
 }

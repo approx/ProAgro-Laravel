@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Farm extends Model
 {
-    protected $fillable=['name','address_id','client_id','ha','value_ha','capital_tied','remuneration'];
+    protected $fillable=['name','lat', 'lng','client_id','ha','value_ha','capital_tied','remuneration'];
 
-    protected $hidden = ['address_id','client_id'];
+    protected $hidden = ['client_id'];
 
     public function fields()
     {
@@ -18,11 +18,7 @@ class Farm extends Model
     public function inventory_itens()
     {
       return $this->hasMany('App\InventoryIten');
-    }
-
-    public function address()
-    {
-      return $this->belongsTo('App\Address');
+    }rn $this->belongsTo('App\Address');
     }
 
     public function client()
