@@ -21,6 +21,7 @@ class CreateFieldsTable extends Migration
             $table->double('lat',8,3)->nullable();
             $table->double('lng',8,3)->nullable();
             $table->integer('farm_id');
+            $table->integer('field_type_id');
             $table->timestamps();
         });
     }

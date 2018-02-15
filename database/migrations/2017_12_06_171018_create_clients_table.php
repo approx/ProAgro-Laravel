@@ -23,7 +23,7 @@ class CreateClientsTable extends Migration
             $table->string('cpf_cnpj',15);
             $table->integer('address_id');
             $table->integer('user_id');
-            $table->integer('client_user');
+            $table->integer('client_user')->nullable();
             $table->timestamps();
         });
     }
