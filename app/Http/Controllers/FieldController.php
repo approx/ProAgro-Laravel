@@ -10,7 +10,7 @@ class FieldController extends Controller
 {
   public function index()
   {
-    $fields = Field::with(['crop.field.farm','crops','farm.address.city.state','farm.client.user:id'])->orderBy('name')->get();
+    $fields = Field::with(['crop.field.farm','crops','farm.client.user:id','field_type'])->orderBy('name')->get();
     $filtered = $fields->filter(function($value,$key){
       return $value->farm->client->user->id === Auth::id() || Auth::user()->role->name=='master';
     });
@@ -29,9 +29,9 @@ class FieldController extends Controller
     if($field->crop){
       $field->crop->field->farm;
     }
+    $field->field_type;
     $field->crops;
     $field->farm->client;
-    $field->farm->address->city->state;
     return $field;
   }
 

@@ -14,7 +14,7 @@ class FieldTypeController extends Controller
 
     public function store()
     {
-      return FieldType::create(request->all());
+      return FieldType::create(request()->all());
     }
 
     public function get(FieldType $fieldType)

@@ -18,7 +18,6 @@ class Farm extends Model
     public function inventory_itens()
     {
       return $this->hasMany('App\InventoryIten');
-    }rn $this->belongsTo('App\Address');
     }
 
     public function client()
