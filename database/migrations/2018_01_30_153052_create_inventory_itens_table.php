@@ -20,6 +20,9 @@ class CreateInventoryItensTable extends Migration
             $table->integer('depreciation_time');
             $table->double('depreciation_value');
             $table->integer('farm_id');
+            $table->boolean('sold')->default(false);
+            $table->double('sold_price')->nullable();
+            $table->date('sold_date')->nullable();
             $table->timestamps();
         });
     }

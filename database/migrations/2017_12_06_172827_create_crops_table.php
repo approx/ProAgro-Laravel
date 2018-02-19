@@ -21,7 +21,7 @@ class CreateCropsTable extends Migration
             $table->date('initial_date');
             $table->date('final_date');
             $table->double('expected');
-            $table->double('sack');
+            $table->double('sack')->nullable();
             $table->timestamps();
         });
     }

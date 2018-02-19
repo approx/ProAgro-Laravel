@@ -12,7 +12,7 @@ class CropController extends Controller
 {
   public function index()
   {
-    $crops = Crop::with(['field.farm.address','culture','activities','field.farm.client.user:id'])->get();
+    $crops = Crop::with(['field.farm','culture','activities','field.farm.client.user:id','inventory_itens'])->get();
     $filtered = $crops->filter(function($value,$key){
       return $value->field->farm->client->user->id === Auth::id() || Auth::user()->role->name=='master';
     });
@@ -23,6 +23,9 @@ class CropController extends Controller
   public function store()
   {
     $crop =  Crop::create(request()->all());
+    if(request()->itens){
+      $crop->inventory_itens()->attach(preg_split("/;/",request()->itens));
+    }
     $final_date = Carbon::createFromFormat('Y-m-d', request()->final_date);
     if($final_date->isFuture()){
       $field = Field::find(request()->field_id);
@@ -39,6 +42,7 @@ class CropController extends Controller
     $crop->culture;
     $crop->activities;
     $crop->field->farm->client;
+    $crop->inventory_itens;
     return $crop;
   }
 

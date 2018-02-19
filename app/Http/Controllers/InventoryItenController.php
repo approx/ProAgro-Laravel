@@ -35,8 +35,11 @@ class InventoryItenController extends Controller
       if($inventoryIten->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this iten',400);
 
       $inventoryIten->fill(request()->all());
+      if($inventoryIten->sold_price&&$inventoryIten->sold_date){
+        $inventoryIten->sold = true;
+      }
       $inventoryIten->save();
-      return $farm;
+      return $inventoryIten;
     }
 
     public function delete(InventoryIten $inventoryIten)

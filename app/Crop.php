@@ -31,6 +31,11 @@ class Crop extends Model
       return $this->hasMany('App\Activity')->with(['activity_type','unity']);
     }
 
+    public function inventory_itens()
+    {
+      return $this->belongsToMany('App\InventoryIten','crop_inventory_iten');
+    }
+
     // public function boot()
     // {
     //     Carbon::serializeUsing(function ($carbon) {
