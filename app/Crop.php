@@ -26,6 +26,11 @@ class Crop extends Model
       return $this->belongsTo('App\Culture');
     }
 
+    public function sack_solds()
+    {
+      return $this->hasMany('App\SackSold');
+    }
+
     public function activities()
     {
       return $this->hasMany('App\Activity')->with(['activity_type','unity']);
