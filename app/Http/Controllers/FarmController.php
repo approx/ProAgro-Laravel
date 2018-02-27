@@ -10,7 +10,7 @@ class FarmController extends Controller
 {
   public function index()
   {
-    $farms = Farm::with(['cultures','fields','client.address','client.user','inventory_itens'])->orderBy('name')->get();
+    $farms = Farm::with(['cultures','fields','client.address','client.user','inventory_itens','income_histories'])->orderBy('name')->get();
     $filtered = $farms->filter(function ($value,$key) {
       return $value->client->user->id === Auth::id() || Auth::user()->role->name=='master';
     });
@@ -33,6 +33,7 @@ class FarmController extends Controller
     $farm->inventory_itens;
     $farm->cultures;
     $farm->fields;
+    $farm->income_histories;
     $farm->client->address;
     return $farm;
   }

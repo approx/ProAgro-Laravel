@@ -23,6 +23,7 @@ class CreateFarmsTable extends Migration
             $table->double('value_ha');
             $table->double('capital_tied');
             $table->double('remuneration');
+            $table->double('income')->default(0);
             $table->timestamps();
         });
     }

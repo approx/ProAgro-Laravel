@@ -88,6 +88,7 @@ Route::get('/inventories','InventoryItenController@index')->middleware('auth:api
 Route::get('/inventory/{inventoryIten}','InventoryItenController@get')->middleware('auth:api');
 Route::post('/inventories','InventoryItenController@store')->middleware('auth:api');
 Route::put('/inventory/{inventoryIten}','InventoryItenController@update')->middleware('auth:api','only.user');
+Route::post('/inventory/{inventoryIten}/sell','InventoryItenController@sell')->middleware('auth:api','only.user');
 Route::delete('/inventory/{inventoryIten}','InventoryItenController@delete')->middleware('auth:api','only.user');
 
 Route::get('/field_types','FieldTypeController@index')->middleware('auth:api');
