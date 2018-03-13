@@ -6,13 +6,15 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Crop;
 use App\Field;
+use App\SackSold;
+use App\IncomeHistory;
 use Illuminate\Support\Facades\Auth;
 
 class CropController extends Controller
 {
   public function index()
   {
-    $crops = Crop::with(['field.farm','culture','activities','field.farm.client.user:id','inventory_itens'])->get();
+    $crops = Crop::with(['field.farm','culture','activities','field.farm.client.user:id','inventory_itens','sack_solds'])->get();
     $filtered = $crops->filter(function($value,$key){
       return $value->field->farm->client->user->id === Auth::id() || Auth::user()->role->name=='master';
     });
@@ -38,12 +40,21 @@ class CropController extends Controller
   public function get(Crop $crop)
   {
     if($crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this crop',400);
-    $crop->field->farm->address;
     $crop->culture;
     $crop->activities;
-    $crop->field->farm->client;
+    //$crop->field->farm->client;
+    $crop->sack_solds;
     $crop->inventory_itens;
     return $crop;
+  }
+
+  public function register_sack(Crop $crop)
+  {
+    if($crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this crop',400);
+    IncomeHistory::create(['farm_id'=>$crop->field->farm->id,'value'=>(request()->quantity*request()->value),'date'=>Carbon::now(),'description'=>$crop->name.' - '.request()->quantity.' sacas vendida(s)','expense'=>false]);
+    $sackSold = SackSold::create(['crop_id'=>$crop->id,'quantity'=>request()->quantity,'value'=>request()->value]);
+    $crop->field->farm->CalculateIncome();
+    return $sackSold;
   }
 
   public function update(Crop $crop)
