@@ -14,3 +14,9 @@
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
+Route::get('/register-user-email', function () {
+
+  return new App\Mail\GiveAcessUser();
+
+ });
