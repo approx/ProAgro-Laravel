@@ -17,6 +17,6 @@
 
 Route::get('/register-user-email', function () {
 
-  return new App\Mail\GiveAcessUser();
+  return new App\Mail\GiveAcessUser('Diego');
 
  });
