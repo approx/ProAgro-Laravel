@@ -79,7 +79,7 @@ Route::delete('/unity/{unity}','UnityController@delete')->middleware('auth:api',
 Route::post('/unities','UnityController@store')->middleware('auth:api','only.user');
 
 Route::get('/users','UserController@index')->middleware('auth:api','only.master');
-Route::get('/user/giveAccess','UserController@access')->middleware('auth:api','only.master');
+Route::post('/user/giveAccess','UserController@access')->middleware('auth:api','only.master');
 Route::get('/user/{user}','UserController@get')->middleware('auth:api','only.master');
 Route::put('/user/{user}','UserController@update')->middleware('auth:api','only.master');
 Route::delete('/user/{user}','UserController@delete')->middleware('auth:api','only.master');

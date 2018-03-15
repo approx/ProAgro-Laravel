@@ -30,14 +30,14 @@
       }
       body{
         margin: 0px;
-        background-image: url("{{ URL::to('/') }}/public/images/bg01.jpg");
+        background-image: url("{{ env("PRODUCTION_URL",env("APP_URL")) }}/public/images/bg01.jpg");
       }
     </style>
     @yield('style')
     <body>
         <div class="container">
           <div class="logo">
-            <img width="100%" src="{{URL::to('/')}}/public/images/logo.png" alt="">
+            <img width="100%" src="{{env("PRODUCTION_URL",env("APP_URL"))}}/public/images/logo.png" alt="">
           </div>
           <div class="hr"></div>
           <div class="hr bottom"></div>
