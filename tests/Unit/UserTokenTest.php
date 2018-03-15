@@ -4,10 +4,12 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\UserToken;
 
 class UserTokenTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic test example.
      *
@@ -15,6 +17,7 @@ class UserTokenTest extends TestCase
      */
     public function testGenerateUniqueToken()
     {
+      UserToken::create(['name'=>'Diego','email'=>'contato@diegomatias.com.br']);
       $token = UserToken::GetUniqueToken();
       $tokens = UserToken::all();
       foreach ($tokens as $iten) {
@@ -25,8 +28,6 @@ class UserTokenTest extends TestCase
     public function testCreateUserToken()
     {
       $token = UserToken::create(['name'=>'Diego','email'=>'contato@diegomatias.com.br']);
-      $this->assertTrue($token->name=='Diego');
-      $this->assertTrue($token->email=='contato@diegomatias.com.br');
-      $this->assertTrue(isset($token->token));
+      $this->assertDatabaseHas('user_tokens',['name'=>'Diego','email'=>'contato@diegomatias.com.br']);
     }
 }
