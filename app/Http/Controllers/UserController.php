@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use App\User;
 use App\Token;
 use App\UserToken;
+use App\Address;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -33,10 +34,26 @@ class UserController extends Controller
     return response("Acess Email Sended",200);
   }
 
-  public function store()
+  public function register()
   {
-    if(Auth::user()->role->name!='master') return response('you dont have access to this',400);
-    return User::create(request()->all());
+
+    request()->validate([
+      'name'=>'required|max:40',
+      'email'=>'required|email|confirmed',
+      'password'=>'required|confirmed',
+      'CPF'=>'required|size:11',
+      'phone'=>'required|min:10|max:11',
+      'city_id'=>'required|numeric',
+      'street_name'=>'required',
+      'street_number'=>'required|numeric',
+      'CEP'=>'required|size:8',
+      'token'=>'required|exists:user_tokens',
+      'role_id'=>'required|numeric'
+    ]);
+
+    $address = Address::create(request()->all());
+
+    return User::create(request()->all()+["address_id"=>$address->id]);
   }
 
   public function get(User $user)

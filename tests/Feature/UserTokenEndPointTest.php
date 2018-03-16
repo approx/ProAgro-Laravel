@@ -6,7 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\UserToken;
 
-class UserTokenTest extends TestCase
+class UserTokenEndPointTest extends TestCase
 {
     /**
      * A basic test example.

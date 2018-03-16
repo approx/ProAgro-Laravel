@@ -98,6 +98,7 @@ Route::get('/field_type/{fieldType}','FieldTypeController@get')->middleware('aut
 Route::post('/field_types','FieldTypeController@store')->middleware('auth:api');
 Route::delete('/field_type/{fieldType}','FieldTypeController@delete')->middleware('auth:api');
 
-Route::get('/user_token/{userToken}','UserTokenController@valid')->middleware('auth:api','only.master');
+Route::get('/user_token/{userToken}','UserTokenController@valid');
+Route::post('/user/register','UserController@register');
 
 Route::get('roles','RolesController@index');
