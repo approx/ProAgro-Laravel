@@ -23,11 +23,11 @@ Route::put('/client/{client}','ClientController@update')->middleware('auth:api',
 Route::delete('/client/{client}','ClientController@delete')->middleware('auth:api','only.user');
 Route::post('/clients','ClientController@store')->middleware('auth:api','only.user');
 
-Route::get('/states','StateController@index')->middleware('auth:api');
+Route::get('/states','StateController@index');
 Route::get('/state/{state}','StateController@get')->middleware('auth:api');
 Route::delete('/state/{state}','StateController@delete')->middleware('auth:api','only.user');
 
-Route::get('/cities','CityController@index')->middleware('auth:api');
+Route::get('/cities','CityController@index');
 Route::delete('/city/{city}','StateController@delete')->middleware('auth:api','only.user');
 
 Route::get('/addresses','AddressController@index')->middleware('auth:api');
