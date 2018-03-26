@@ -19,7 +19,7 @@ class UserEndPointTest extends TestCase
     {
       $this->withoutMiddleware();
 
-      $response = $this->json('POST', 'api/user/giveAccess', ['name' => 'Diego','email' => 'dm.diego.bh@gmail.com']);
+      $response = $this->json('POST', 'api/user/giveAccess', ['name' => 'Diego','email' => 'dm.diego.bh@gmail.com','url'=>'http://localhost:8080/user/new/']);
       $response->assertStatus(200);
     }
 
@@ -53,6 +53,7 @@ class UserEndPointTest extends TestCase
       unset($userData["CEP"]);
 
       $this->assertDatabaseHas('users',$userData);
+      $this->assertDatabaseMissing('user_tokens',['token'=>$token]);
     }
 
     /**

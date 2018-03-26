@@ -12,6 +12,7 @@ class GiveAcessUser extends Mailable
     use Queueable, SerializesModels;
     public $name;
     public $token;
+    public $url;
 
     /**
      * Create a new message instance.
@@ -19,10 +20,11 @@ class GiveAcessUser extends Mailable
      * @return void
      */
 
-    public function __construct($name,$token)
+    public function __construct($name,$token,$url)
     {
         $this->name = $name;
         $this->token = $token;
+        $this->url = $url;
     }
 
     /**

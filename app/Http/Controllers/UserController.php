@@ -29,7 +29,7 @@ class UserController extends Controller
     $name = request()->name;
     $email = request()->email;
     $token = UserToken::create(['name'=>$name,'email'=>$email]);
-    Mail::to($email)->send(new GiveAcessUser($name,$token->token),$token->token);
+    Mail::to($email)->send(new GiveAcessUser($name,$token->token,request()->url),$token->token);
 
     return response("Acess Email Sended",200);
   }
@@ -53,7 +53,12 @@ class UserController extends Controller
 
     $address = Address::create(request()->all());
 
-    return User::create(request()->all()+["address_id"=>$address->id]);
+    $user = User::create(request()->all()+["address_id"=>$address->id]);
+
+    $token = UserToken::where('token','=',request()->token)->first();
+    $token->delete();
+
+    return $user;
   }
 
   public function get(User $user)

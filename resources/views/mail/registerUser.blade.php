@@ -21,5 +21,5 @@
 @section('content')
   <h1>Olá {{$name}}</h1>
   <h3>Você acaba de receber acesso ao sistema da ProAgro, para que você possa acessar o nosso sistema primeiro você vai precisar de uma senha de acesso ao clicar no botão de cadastrar a senha você sera redirecionado a uma pagina para que sua senha seja cadastrada.</h3>
-  <a href="#" class="button">Cadastrar senha</a>
+  <a href="{{$url.$token}}" class="button">Cadastrar senha</a>
 @endsection
