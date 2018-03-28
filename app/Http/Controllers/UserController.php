@@ -24,7 +24,7 @@ class UserController extends Controller
     request()->validate([
       'name'=>'required|max:40',
       'email'=>'required|email',
-      'role_id'=>'required|number'
+      'role_id'=>'required|numeric'
     ]);
 
     $name = request()->name;
@@ -39,18 +39,14 @@ class UserController extends Controller
   {
 
     request()->validate([
-      'name'=>'required|max:40',
-      'email'=>'required|email|confirmed',
       'password'=>'required|confirmed',
       'CPF'=>'required|size:11',
       'phone'=>'required|min:10|max:11',
       'token'=>'required|exists:user_tokens'
     ]);
     $token = UserToken::where('token','=',request()->token)->first();
-    $request = request()->all();
-    $request->role_id = $token->role_id;
-    
-    $user = User::create();
+
+    $user = User::create(request()->all()+['name'=>$token->name,'role_id'=>$token->role_id,'email'=>$token->email]);
 
     $token->delete();
 

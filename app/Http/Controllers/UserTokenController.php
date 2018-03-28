@@ -11,7 +11,7 @@ class UserTokenController extends Controller
     {
       $token = UserToken::where('token',"=",$userToken)->first();
       if($token){
-        return response("token is valid",200);
+        return $token;
       }
       return response("token is not valid",404);
     }

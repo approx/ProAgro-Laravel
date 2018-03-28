@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Roles;
+use App\Role;
 
 class RolesController extends Controller
 {
     public function index()
     {
-      return Roles::all();
+      return Role::all();
     }
 }

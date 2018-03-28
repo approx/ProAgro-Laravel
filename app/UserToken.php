@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserToken extends Model
 {
-    public $fillable=['name','token','email'];
+    public $fillable=['name','token','email','role_id'];
+    public $hidden=['role_id'];
 
 
     public static function create($properties){
