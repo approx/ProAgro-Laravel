@@ -23,12 +23,13 @@ class UserController extends Controller
   {
     request()->validate([
       'name'=>'required|max:40',
-      'email'=>'required|email'
+      'email'=>'required|email',
+      'role_id'=>'required|number'
     ]);
 
     $name = request()->name;
     $email = request()->email;
-    $token = UserToken::create(['name'=>$name,'email'=>$email]);
+    $token = UserToken::create(['name'=>$name,'email'=>$email,'role_id'=>request()->role_id]);
     Mail::to($email)->send(new GiveAcessUser($name,$token->token,request()->url),$token->token);
 
     return response("Acess Email Sended",200);
@@ -43,19 +44,14 @@ class UserController extends Controller
       'password'=>'required|confirmed',
       'CPF'=>'required|size:11',
       'phone'=>'required|min:10|max:11',
-      'city_id'=>'required|numeric',
-      'street_name'=>'required',
-      'street_number'=>'required|numeric',
-      'CEP'=>'required|size:8',
-      'token'=>'required|exists:user_tokens',
-      'role_id'=>'required|numeric'
+      'token'=>'required|exists:user_tokens'
     ]);
-
-    $address = Address::create(request()->all());
-
-    $user = User::create(request()->all()+["address_id"=>$address->id]);
-
     $token = UserToken::where('token','=',request()->token)->first();
+    $request = request()->all();
+    $request->role_id = $token->role_id;
+    
+    $user = User::create();
+
     $token->delete();
 
     return $user;

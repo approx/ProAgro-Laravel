@@ -101,4 +101,4 @@ Route::delete('/field_type/{fieldType}','FieldTypeController@delete')->middlewar
 Route::get('/user_token/{userToken}','UserTokenController@valid');
 Route::post('/user/register','UserController@register');
 
-Route::get('roles','RolesController@index');
+Route::get('/roles','RolesController@index')->middleware('auth:api','only.master');
