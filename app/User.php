@@ -28,6 +28,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
+
     public function findForPassport($username) {
         return $this->orWhere('CPF', $username)->orWhere('email',$username)->first();
     }

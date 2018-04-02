@@ -31,6 +31,9 @@ class UserController extends Controller
     $email = request()->email;
     $token = UserToken::create(['name'=>$name,'email'=>$email,'role_id'=>request()->role_id]);
     Mail::to($email)->send(new GiveAcessUser($name,$token->token,request()->url),$token->token);
+    if (count(Mail::failures()) > 0) {
+        return Mail::failures();
+    }
 
     return response("Acess Email Sended",200);
   }
