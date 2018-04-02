@@ -38,6 +38,7 @@ Route::put('/address/{address}','AddressController@update')->middleware('auth:ap
 
 Route::get('/farms','FarmController@index')->middleware('auth:api');
 Route::get('/farm/{farm}','FarmController@get')->middleware('auth:api');
+Route::get('/farm/{farm}/indicators','FarmController@indicators');
 Route::put('/farm/{farm}','FarmController@update')->middleware('auth:api','only.user');
 Route::delete('/farm/{farm}','FarmController@delete')->middleware('auth:api','only.user');
 Route::post('/farms','FarmController@store')->middleware('auth:api','only.user');
