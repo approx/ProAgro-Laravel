@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateActivityTypesTable extends Migration
+class UpdateActivityTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateActivityTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('activity_types', function (Blueprint $table) {
-            $table->string('id',10);
-            $table->string('name');
-            $table->timestamps();
-            $table->primary('id');
+        Schema::table('activity_types',function(Blueprint $table){
+          $table->string('unity_id',10)->nullable();
         });
     }
 
@@ -28,6 +25,6 @@ class CreateActivityTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activity_types');
+        //
     }
 }

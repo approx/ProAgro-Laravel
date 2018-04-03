@@ -39,7 +39,7 @@ class FarmController extends Controller
   }
 
   public function indicators(Farm $farm){
-    $ind = ['planted area'=>$farm->PlantedArea(),'area available'=>$farm->FieldAreas()];
+    $ind = ['planted_area'=>$farm->PlantedArea(),'area_available'=>$farm->FieldAreas()];
     return $ind;
   }
 

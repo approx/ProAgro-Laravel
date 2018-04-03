@@ -9,7 +9,7 @@ class ActivityTypeController extends Controller
 {
   public function index()
   {
-    return ActivityType::all();
+    return ActivityType::with(['unity'])->get();
   }
 
   public function store()
@@ -19,6 +19,7 @@ class ActivityTypeController extends Controller
 
   public function get(ActivityType $activityType)
   {
+    $activityType->unity;
     return $activityType;
   }
 
