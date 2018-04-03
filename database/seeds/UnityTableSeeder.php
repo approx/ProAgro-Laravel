@@ -14,7 +14,10 @@ class UnityTableSeeder extends Seeder
         DB::table('unities')->insert([
           ['id'=>'L','name'=>'Litros'],
           ['id'=>'Kg','name'=>'Kilogramas'],
-          ['id'=>'Ton','name'=>'Toneladas']
+          ['id'=>'Ton','name'=>'Toneladas'],
+          ['id'=>'R$','name'=>'Reais'],
+          ['id'=>'Kw','name'=>'Kilowatt'],
+          ['id'=>'Sc','name'=>'Sacas']
         ]);
     }
 }

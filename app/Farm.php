@@ -29,6 +29,26 @@ class Farm extends Model
       $this->save();
     }
 
+    public function PlantedArea(){
+      $fields = $this->fields;
+      $area = 0;
+      foreach ($fields as $field) {
+        if($field->crop){
+          $area+=$field->area;
+        }
+      }
+      return $area;
+    }
+
+    public function FieldAreas(){
+      $fields = $this->fields;
+      $area = 0;
+      foreach ($fields as $field) {
+        $area+=$field->area;
+      }
+      return $area;
+    }
+
     public function income_histories()
     {
       return $this->hasMany('App\IncomeHistory');

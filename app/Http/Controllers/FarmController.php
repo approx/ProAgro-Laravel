@@ -38,6 +38,11 @@ class FarmController extends Controller
     return $farm;
   }
 
+  public function indicators(Farm $farm){
+    $ind = ['planted_area'=>$farm->PlantedArea(),'area_available'=>$farm->FieldAreas()];
+    return $ind;
+  }
+
   public function update(Farm $farm)
   {
     if($farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this farm',400);
