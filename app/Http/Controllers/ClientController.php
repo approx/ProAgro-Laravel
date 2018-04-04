@@ -12,7 +12,7 @@ class ClientController extends Controller
 {
     public function index()
     {
-      if(Auth::user()->role->name=='master') return Client::with(['farms','address.city.state','user.role'])->get();
+      if(Auth::user()->role->name=='master') return Client::with(['farms','address','user.role'])->get();
 
       return Client::with(['farms','address.city.state','user:id,name'])->where('user_id',Auth::id())->get();
     }
@@ -27,7 +27,7 @@ class ClientController extends Controller
       $client->user;
       if($client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this client',400);
       $client->farms;
-      $client->address->city->state;
+      $client->address;
       return $client;
     }
 

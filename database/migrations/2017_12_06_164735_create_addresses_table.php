@@ -17,8 +17,11 @@ class CreateAddressesTable extends Migration
             $table->increments('id');
             $table->integer('city_id');
             $table->string('street_name');
+            $table->string('city');
+            $table->string('state');
+            $table->string('country');
             $table->integer('street_number');
-            $table->string('CEP',8);
+            $table->string('CEP',8)->nullable();
             $table->timestamps();
         });
     }
