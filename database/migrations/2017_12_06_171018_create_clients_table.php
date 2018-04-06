@@ -19,8 +19,8 @@ class CreateClientsTable extends Migration
             $table->string('email',50)->nullable();
             $table->string('phone',11);
             $table->string('phone_2',11)->nullable();
-            $table->string('inscription_number',30);
-            $table->string('cpf_cnpj',15);
+            $table->string('inscription_number',30)->nullable();
+            $table->string('cpf_cnpj',15)->nullable();
             $table->integer('address_id');
             $table->integer('user_id');
             $table->integer('client_user')->nullable();

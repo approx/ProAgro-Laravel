@@ -18,8 +18,8 @@ class CreateFieldsTable extends Migration
             $table->integer('actual_crop')->nullable();
             $table->string('name',30);
             $table->integer('area');
-            $table->double('lat',8,3)->nullable();
-            $table->double('lng',8,3)->nullable();
+            $table->string('lat')->nullable();
+            $table->string('lng')->nullable();
             $table->integer('farm_id');
             $table->integer('field_type_id');
             $table->timestamps();
