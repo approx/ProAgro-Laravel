@@ -14,7 +14,7 @@ class ClientController extends Controller
     {
       if(Auth::user()->role->name=='master') return Client::with(['farms','address','user.role'])->get();
 
-      return Client::with(['farms','address.city.state','user:id,name'])->where('user_id',Auth::id())->get();
+      return Client::with(['farms','address','user:id,name'])->where('user_id',Auth::id())->get();
     }
 
     public function store()
