@@ -15,11 +15,11 @@ class CreateAddressesTable extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('street_name');
-            $table->string('city');
-            $table->string('state');
-            $table->string('country');
-            $table->integer('street_number');
+            $table->string('street_name')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('country')->nullable();
+            $table->integer('street_number')->nullable();
             $table->string('CEP',8)->nullable();
             $table->timestamps();
         });
