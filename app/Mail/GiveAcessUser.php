@@ -34,6 +34,6 @@ class GiveAcessUser extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.registeruser');
+        return $this->view('mail.registerUser');
     }
 }
