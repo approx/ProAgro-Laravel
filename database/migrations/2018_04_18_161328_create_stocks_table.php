@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSackSoldsTable extends Migration
+class CreateStocksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateSackSoldsTable extends Migration
      */
     public function up()
     {
-        Schema::create('sack_solds', function (Blueprint $table) {
+        Schema::create('stocks', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('crop_id');
-            $table->double('value');
-            $table->integer('quantity');
-            $table->integer('income_id');
+            $table->integer('activity_type_id');
+            $table->double('quantity');
+            $table->double('unity_value');
+            $table->double('total_value');
+            $table->integer('farm_id');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateSackSoldsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sack_solds');
+        Schema::dropIfExists('stocks');
     }
 }
