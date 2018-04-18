@@ -19,10 +19,10 @@ class CreateActivitiesTable extends Migration
             $table->date('payment_date');
             $table->string('activity_type_id',10);
             $table->double('total_value');
-            $table->double('value_per_ha');
-            $table->double('quantity');
+            $table->double('value_per_ha')->nullable();
+            $table->double('quantity')->nullable();
             $table->string('unity_id',10);
-            $table->double('dose');
+            $table->double('dose')->nullable();
             $table->integer('crop_id');
             $table->timestamps();
         });
