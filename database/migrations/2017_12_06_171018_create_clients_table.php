@@ -24,6 +24,7 @@ class CreateClientsTable extends Migration
             $table->integer('address_id');
             $table->integer('user_id');
             $table->integer('client_user')->nullable();
+            $table->boolean('active')->default(false);
             $table->timestamps();
         });
     }
