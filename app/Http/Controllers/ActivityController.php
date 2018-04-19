@@ -23,10 +23,6 @@ class ActivityController extends Controller
 
   public function store()
   {
-    $crop = Crop::find(request()->crop_id);
-    $activityType = ActivityType::find(request()->activity_type_id);
-    IncomeHistory::create(['farm_id'=>$crop->field->farm->id,'value'=>request()->total_value,'date'=>request()->payment_date,'description'=>'Atividade: '.$activityType->name.', safra: '.$crop->name,'expense'=>true]);
-    $crop->field->farm->CalculateIncome();
     return Activity::create(request()->all());
   }
 

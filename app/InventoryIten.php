@@ -23,4 +23,9 @@ class InventoryIten extends Model
     {
       return $this->belongsTo('App\Crop','crop_inventory_iten');
     }
+
+    public function income()
+    {
+      return $this->belongsTo('App\IncomeHistory','income_id');
+    }
 }

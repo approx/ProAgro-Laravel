@@ -23,6 +23,7 @@ class CreateActivitiesTable extends Migration
             $table->double('value_per_ha')->nullable();
             $table->double('quantity')->nullable();
             $table->string('unity_id',10);
+            $table->integer('income_id');
             $table->double('dose')->nullable();
             $table->integer('crop_id');
             $table->timestamps();
