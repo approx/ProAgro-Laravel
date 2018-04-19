@@ -8,6 +8,8 @@ use App\Crop;
 use App\Observers\CropObserver;
 use App\Activity;
 use App\Observers\ActivityObserver;
+use App\IncomeHistory;
+use App\Observers\IncomeObserver;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         Activity::observe(ActivityObserver::class);
         Crop::observe(CropObserver::class);
+        IncomeHistory::observe(IncomeObserver::class);
     }
 
     /**
