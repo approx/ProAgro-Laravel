@@ -13,4 +13,9 @@ class IncomeHistory extends Model
         'updated_at',
         'date'
     ];
+
+    public function farm()
+    {
+      return $this->belongsTo('App\Farm');
+    }
 }

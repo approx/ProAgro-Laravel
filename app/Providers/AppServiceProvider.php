@@ -8,6 +8,14 @@ use App\Crop;
 use App\Observers\CropObserver;
 use App\Activity;
 use App\Observers\ActivityObserver;
+use App\IncomeHistory;
+use App\Observers\IncomeObserver;
+use App\Field;
+use App\Observers\FieldObserver;
+use App\Farm;
+use App\Observers\FarmObserver;
+use App\SackSold;
+use App\Observers\SackSoldObserver;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +30,10 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         Activity::observe(ActivityObserver::class);
         Crop::observe(CropObserver::class);
+        IncomeHistory::observe(IncomeObserver::class);
+        Field::observe(FieldObserver::class);
+        Farm::observe(FarmObserver::class);
+        SackSold::observe(SackSoldObserver::class);
     }
 
     /**
