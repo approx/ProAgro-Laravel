@@ -12,4 +12,9 @@ class SackSold extends Model
     {
       return $this->belongsTo('App\Crop');
     }
+
+    public function income()
+    {
+      return $this->belongsTo('App\IncomeHistory','income_id');
+    }
 }
