@@ -10,6 +10,8 @@ use App\Activity;
 use App\Observers\ActivityObserver;
 use App\IncomeHistory;
 use App\Observers\IncomeObserver;
+use App\Field;
+use App\Observers\FieldObserver;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
         Activity::observe(ActivityObserver::class);
         Crop::observe(CropObserver::class);
         IncomeHistory::observe(IncomeObserver::class);
+        Field::observe(FieldObserver::class);
     }
 
     /**
