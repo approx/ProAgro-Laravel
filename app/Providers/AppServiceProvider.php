@@ -12,6 +12,10 @@ use App\IncomeHistory;
 use App\Observers\IncomeObserver;
 use App\Field;
 use App\Observers\FieldObserver;
+use App\Farm;
+use App\Observers\FarmObserver;
+use App\SackSold;
+use App\Observers\SackSoldObserver;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -28,6 +32,8 @@ class AppServiceProvider extends ServiceProvider
         Crop::observe(CropObserver::class);
         IncomeHistory::observe(IncomeObserver::class);
         Field::observe(FieldObserver::class);
+        Farm::observe(FarmObserver::class);
+        SackSold::observe(SackSoldObserver::class);
     }
 
     /**

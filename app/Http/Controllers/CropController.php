@@ -51,9 +51,7 @@ class CropController extends Controller
   public function register_sack(Crop $crop)
   {
     if($crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this crop',400);
-    IncomeHistory::create(['farm_id'=>$crop->field->farm->id,'value'=>(request()->quantity*request()->value),'date'=>Carbon::now(),'description'=>$crop->name.' - '.request()->quantity.' sacas vendida(s)','expense'=>false]);
     $sackSold = SackSold::create(['crop_id'=>$crop->id,'quantity'=>request()->quantity,'value'=>request()->value]);
-    $crop->field->farm->CalculateIncome();
     return $sackSold;
   }
 
