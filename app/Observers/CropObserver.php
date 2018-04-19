@@ -26,4 +26,12 @@ class CropObserver
       $crop->final_date = \Carbon\Carbon::createFromFormat('d/m/Y',$crop->final_date,'America/Sao_Paulo')->toDateTimeString();
     }
   }
+
+  public function deleting(Crop $crop)
+  {
+    $activities = $crop->activities;
+    for ($i=0; $i < count($activities); $i++) {
+      $activities[$i]->delete();
+    }
+  }
 }
