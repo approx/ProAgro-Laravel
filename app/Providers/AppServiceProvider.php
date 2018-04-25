@@ -16,6 +16,8 @@ use App\Farm;
 use App\Observers\FarmObserver;
 use App\SackSold;
 use App\Observers\SackSoldObserver;
+use App\Stock;
+use App\Observers\StockObserver;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -34,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
         Field::observe(FieldObserver::class);
         Farm::observe(FarmObserver::class);
         SackSold::observe(SackSoldObserver::class);
+        Stock::observe(StockObserver::class);
     }
 
     /**

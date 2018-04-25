@@ -15,6 +15,11 @@ class Farm extends Model
       return $this->hasMany('App\Field');
     }
 
+    public function stocks()
+    {
+      return $this->hasMany('App\Stock')->with(['stock_histories','activity_type']);
+    }
+
     public function CalculateIncome()
     {
       $this->income = 0;
