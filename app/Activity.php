@@ -7,7 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class Activity extends Model
 {
 
-  protected $fillable = ['operation_date','payment_date','activity_type_id','total_value','quantity','value_per_ha','unity_id','dose','crop_id','product_name'];
+  protected $fillable = [
+    'operation_date',
+    'payment_date',
+    'activity_type_id',
+    'total_value',
+    'quantity',
+    'value_per_ha',
+    'unity_id',
+    'dose',
+    'crop_id',
+    'product_name'
+  ];
 
   protected $dates = [
       'created_at',

@@ -104,5 +104,6 @@ Route::get('/user_token/{userToken}','UserTokenController@valid');
 Route::post('/user/register','UserController@register');
 
 Route::get('/stocks','StockController@index')->middleware('auth:api');
+Route::post('/stock/{stock}','StockController@useStock')->middleware('auth:api','only.master');
 
 Route::get('/roles','RolesController@index')->middleware('auth:api','only.master');

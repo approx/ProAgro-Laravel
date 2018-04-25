@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Stock;
+use App\Activity;
+use App\StockHIstory;
 use Illuminate\Support\Facades\Auth;
 
 class StockController extends Controller
@@ -26,5 +28,40 @@ class StockController extends Controller
       $stock->stock_histories;
 
       return $stock;
+    }
+
+    public function useStock(Stock $stock)
+    {
+
+      request()->validate([
+        'crop_id'=>'required',
+        'quantity'=>'required|max:'.$stock->quantity,
+        'operation_date'=>'required',
+        'payment_date'=>'required'
+      ]);
+
+      $total_value = request()->quantity * $stock->unity_value;
+      $stock->quantity = $stock->quantity - request()->quantity;
+      $stock->save();
+
+      $activity = Activity::create([
+        'operation_date'=>request()->operation_date,
+        'payment_date'=>request()->payment_date,
+        'activity_type_id'=>$stock->activity_type_id,
+        'total_value'=>$total_value,
+        'quantity'=>request()->quantity,
+        'unity_id'=>$stock->activity_type->unity_id,
+        'product_name'=>$stock->product_name,
+        'crop_id'=>request()->crop_id
+      ]);
+
+      try {
+        StockHIstory::create(['stock_id'=>$stock->id,'quantity'=>request()->quantity]);
+      } catch (\Exception $e) {
+        $activity->delete();
+      }
+
+      return $activity;
+
     }
 }
