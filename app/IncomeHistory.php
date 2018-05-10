@@ -18,4 +18,19 @@ class IncomeHistory extends Model
     {
       return $this->belongsTo('App\Farm');
     }
+
+    public function activity()
+    {
+      return $this->hasOne('App\Activity','income_id')->with(['activity_type']);
+    }
+
+    public function inventory_iten()
+    {
+      return $this->hasOne('App\InventoryIten','income_id');
+    }
+
+    public function sack_sold()
+    {
+      return $this->hasOne('App\SackSold','income_id')->with(['crop']);
+    }
 }
