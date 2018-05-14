@@ -24,12 +24,13 @@ class CropController extends Controller
 
   public function store()
   {
+    // echo json_encode(request()->final_date);
     $crop =  Crop::create(request()->all());
     if(request()->itens){
       $crop->inventory_itens()->attach(preg_split("/;/",request()->itens));
     }
-    $final_date = Carbon::createFromFormat('Y-m-d', request()->final_date);
-    if($final_date->isFuture()){
+    // $final_date = Carbon::createFromFormat('Y-m-d', request()->final_date);
+    if($crop->final_date->isFuture()){
       $field = Field::find(request()->field_id);
       $field->actual_crop = $crop->id;
       $field->save();
