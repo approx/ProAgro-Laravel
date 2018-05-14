@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Activity extends Model
 {
@@ -45,5 +46,15 @@ class Activity extends Model
     public function unity()
     {
       return $this->belongsTo('App\Unity');
+    }
+
+    public function setOperationDateAttribute($value)
+    {
+      $this->attributes['operation_date'] = Carbon::createFromFormat('d/m/Y',$value,'America/Sao_Paulo');
+    }
+
+    public function setPaymentDateAttribute($value)
+    {
+      $this->attributes['payment_date'] = Carbon::createFromFormat('d/m/Y',$value,'America/Sao_Paulo');
     }
 }
