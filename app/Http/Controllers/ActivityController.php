@@ -15,7 +15,7 @@ class ActivityController extends Controller
   {
     $activities = Activity::with(['crop.field.farm.client.user:id','activity_type','unity'])->get();
     $filtered = $activities->filter(function($value,$key){
-      return $value->crop->field->farm->client->user->id === Auth::id() || Auth::user()->role->name=='master';
+      return $value->crop->field->farm->client->user->id === Auth::id() || Auth::user()->role->name=='master' || $value->crop->field->farm->client->client_user===Auth::id();
     });
 
     return $filtered->values();

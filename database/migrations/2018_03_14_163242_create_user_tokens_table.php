@@ -18,7 +18,8 @@ class CreateUserTokensTable extends Migration
             $table->string('token',100)->unique();
             $table->string('name');
             $table->string('email');
-            $table->string('role_id');
+            $table->integer('role_id');
+            $table->integer('client_id');
             $table->timestamps();
         });
     }

@@ -11,8 +11,8 @@ class FarmController extends Controller
   public function index()
   {
     $farms = Farm::with(['cultures','fields','client.address','client.user','inventory_itens','income_histories'])->orderBy('name')->get();
-    $filtered = $farms->filter(function ($value,$key) {
-      return $value->client->user->id === Auth::id() || Auth::user()->role->name=='master';
+    $filtered = $farms->filter(function ($farm,$key) {
+      return $farm->client->user->id === Auth::id() || Auth::user()->role->name=='master' || $farm->client->client_user === Auth::id();
     });
 
     return $filtered->values();
@@ -29,7 +29,7 @@ class FarmController extends Controller
 
   public function get(Farm $farm)
   {
-    if($farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this farm',400);
+    if($farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master' && $farm->client->client_user!=Auth::id()) return response('you dont have access to this farm',400);
     $farm->inventory_itens;
     $farm->cultures;
     $farm->fields;

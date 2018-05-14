@@ -12,7 +12,7 @@ class FieldController extends Controller
   {
     $fields = Field::with(['crop.field.farm','crops','farm.client.user:id','field_type'])->orderBy('name')->get();
     $filtered = $fields->filter(function($value,$key){
-      return $value->farm->client->user->id === Auth::id() || Auth::user()->role->name=='master';
+      return $value->farm->client->user->id === Auth::id() || Auth::user()->role->name=='master' || $value->farm->client->client_user === Auth::id();
     });
 
     return $filtered->values();
@@ -25,7 +25,7 @@ class FieldController extends Controller
 
   public function get(Field $field)
   {
-    if($field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this field',400);
+    if($field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master' && $field->farm->client->client_user!=Auth::id()) return response('you dont have access to this field',400);
     if($field->crop){
       $field->crop->field->farm;
     }
