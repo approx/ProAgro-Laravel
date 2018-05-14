@@ -12,7 +12,7 @@ class FieldController extends Controller
   {
     $fields = Field::with(['crop.field.farm','crops','farm.client.user:id','field_type'])->orderBy('name')->get();
     $filtered = $fields->filter(function($value,$key){
-      return $value->farm->client->user->id === Auth::id() || Auth::user()->role->name=='master' || $value->farm->client->client_user === Auth::id();
+      return $value->farm->client->user->id === Auth::id() || Auth::user()->role->name=='master' || $value->farm->client->client_user == Auth::id();
     });
 
     return $filtered->values();

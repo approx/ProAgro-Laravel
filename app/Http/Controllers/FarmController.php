@@ -13,7 +13,7 @@ class FarmController extends Controller
   {
     $farms = Farm::with(['cultures','fields','client.address','client.user','inventory_itens','income_histories.activity','income_histories.inventory_iten','income_histories.sack_sold','stocks'])->orderBy('name')->get();
     $filtered = $farms->filter(function ($value,$key) {
-      return $value->client->user->id === Auth::id() || Auth::user()->role->name=='master' || $value->client->client_user === Auth::id();
+      return $value->client->user->id === Auth::id() || Auth::user()->role->name=='master' || $value->client->client_user == Auth::id();
     });
 
     return $filtered->values();

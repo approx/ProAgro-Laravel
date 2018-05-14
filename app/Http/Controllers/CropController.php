@@ -16,7 +16,7 @@ class CropController extends Controller
   {
     $crops = Crop::with(['field.farm','culture','activities','field.farm.client.user:id','inventory_itens','sack_solds'])->get();
     $filtered = $crops->filter(function($value,$key){
-      return $value->field->farm->client->user->id === Auth::id() || Auth::user()->role->name=='master' || $value->field->farm->client->client_user === Auth::id();
+      return $value->field->farm->client->user->id === Auth::id() || Auth::user()->role->name=='master' || $value->field->farm->client->client_user == Auth::id();
     });
 
     return $filtered->values();
