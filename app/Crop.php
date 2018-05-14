@@ -41,32 +41,13 @@ class Crop extends Model
       return $this->belongsToMany('App\InventoryIten','crop_inventory_iten');
     }
 
-    // public function boot()
-    // {
-    //     Carbon::serializeUsing(function ($carbon) {
-    //         return $carbon->format('U');
-    //     });
-    // }
+    public function setInitialDateAttribute($value)
+    {
+      $this->attributes['initial_date'] = Carbon::createFromFormat('d/m/Y',$value,'America/Sao_Paulo');
+    }
 
-    // public function setInitialDateAttribute($value)
-    // {
-    //   $this->attributes['initial_date'] = Carbon::createFromFormat('Y-m-d', $value);
-    //   echo $value;
-    // }
-    //
-    // public function setFinalDateAttribute($value)
-    // {
-    //   $this->attributes['final_date'] = Carbon::createFromFormat('Y-m-d', $value);
-    //   echo $value;
-    // }
-    //
-    // public function getInitialDateAttribute($value)
-    // {
-    //   return $value->toDateString();
-    // }
-    //
-    // public function getFinalDateAttribute($value)
-    // {
-    //   return $value->toDateString();
-    // }
+    public function setFinalDateAttribute($value)
+    {
+      $this->attributes['final_date'] = Carbon::createFromFormat('d/m/Y',$value,'America/Sao_Paulo');
+    }
 }
