@@ -16,7 +16,7 @@ class CropController extends Controller
   {
     $crops = Crop::with(['field.farm','culture','activities','field.farm.client.user:id','inventory_itens','sack_solds'])->get();
     $filtered = $crops->filter(function($value,$key){
-      return $value->field->farm->client->user->id === Auth::id() || Auth::user()->role->name=='master';
+      return $value->field->farm->client->user->id === Auth::id() || Auth::user()->role->name=='master' || $value->field->farm->client->client_user === Auth::id();
     });
 
     return $filtered->values();
@@ -39,7 +39,7 @@ class CropController extends Controller
 
   public function get(Crop $crop)
   {
-    if($crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this crop',400);
+    if($crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master' && $crop->field->farm->client->client_user!=Auth::id()) return response('you dont have access to this crop',400);
     $crop->culture;
     $crop->activities;
     //$crop->field->farm->client;

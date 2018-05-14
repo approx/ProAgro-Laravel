@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use App\User;
 use App\Token;
 use App\UserToken;
+use App\Client;
 use App\Address;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,13 +25,21 @@ class UserController extends Controller
     request()->validate([
       'name'=>'required|max:40',
       'email'=>'required|email',
-      'role_id'=>'required|numeric'
+      'role_id'=>'required|numeric',
+      'client_id'=>'numeric'
     ]);
 
     $name = request()->name;
     $email = request()->email;
-    $token = UserToken::create(['name'=>$name,'email'=>$email,'role_id'=>request()->role_id]);
-    Mail::to($email)->send(new GiveAcessUser($name,$token->token,request()->url),$token->token);
+    $role_id = request()->role_id;
+    $url = request()->url;
+    $client_id = request()->client_id;
+    if ($client_id == '') {
+      $client_id = 0;
+    }
+
+    $token = UserToken::create(['name'=>$name,'email'=>$email,'role_id'=>$role_id,'client_id'=>$client_id]);
+    Mail::to($email)->send(new GiveAcessUser($name,$token->token,$url),$token->token);
     if (count(Mail::failures()) > 0) {
         return Mail::failures();
     }
@@ -50,6 +59,14 @@ class UserController extends Controller
     $token = UserToken::where('token','=',request()->token)->first();
 
     $user = User::create(request()->all()+['name'=>$token->name,'role_id'=>$token->role_id,'email'=>$token->email]);
+
+    if ($token->client_id > 0) {
+      $client = Client::find($token->client_id);
+      $client->client_user = $user->id;
+      $client->save();
+    } else {
+      return $token;
+    }
 
     $token->delete();
 

@@ -60,7 +60,7 @@ Route::get('/crop/{crop}','CropController@get')->middleware('auth:api');
 Route::put('/crop/{crop}','CropController@update')->middleware('auth:api','only.user');
 Route::delete('/crop/{crop}','CropController@delete')->middleware('auth:api','only.user');
 Route::post('/crops','CropController@store')->middleware('auth:api','only.user');
-Route::post('/crop/{crop}/sold_sack','CropController@register_sack')->middleware('auth:api');
+Route::post('/crop/{crop}/sold_sack','CropController@register_sack')->middleware('auth:api','only.user');
 
 Route::get('/activity_types','ActivityTypeController@index')->middleware('auth:api');
 Route::get('/activity_type/{activity_type}','ActivityTypeController@get')->middleware('auth:api');
@@ -90,15 +90,15 @@ Route::get('/current_user','UserController@actualUser')->middleware('auth:api');
 
 Route::get('/inventories','InventoryItenController@index')->middleware('auth:api');
 Route::get('/inventory/{inventoryIten}','InventoryItenController@get')->middleware('auth:api');
-Route::post('/inventories','InventoryItenController@store')->middleware('auth:api');
+Route::post('/inventories','InventoryItenController@store')->middleware('auth:api','only.user');
 Route::put('/inventory/{inventoryIten}','InventoryItenController@update')->middleware('auth:api','only.user');
 Route::post('/inventory/{inventoryIten}/sell','InventoryItenController@sell')->middleware('auth:api','only.user');
 Route::delete('/inventory/{inventoryIten}','InventoryItenController@delete')->middleware('auth:api','only.user');
 
 Route::get('/field_types','FieldTypeController@index')->middleware('auth:api');
 Route::get('/field_type/{fieldType}','FieldTypeController@get')->middleware('auth:api');
-Route::post('/field_types','FieldTypeController@store')->middleware('auth:api');
-Route::delete('/field_type/{fieldType}','FieldTypeController@delete')->middleware('auth:api');
+Route::post('/field_types','FieldTypeController@store')->middleware('auth:api','only.user');
+Route::delete('/field_type/{fieldType}','FieldTypeController@delete')->middleware('auth:api','only.user');
 
 Route::get('/user_token/{userToken}','UserTokenController@valid');
 Route::post('/user/register','UserController@register');

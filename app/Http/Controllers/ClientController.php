@@ -14,7 +14,7 @@ class ClientController extends Controller
     {
       if(Auth::user()->role->name=='master') return Client::with(['farms','address','user.role'])->get();
 
-      return Client::with(['farms','address','user:id,name'])->where('user_id',Auth::id())->get();
+      return Client::with(['farms','address','user:id,name'])->where('user_id',Auth::id())->orWhere('client_user',Auth::id())->get();
     }
 
     public function store()
@@ -25,7 +25,7 @@ class ClientController extends Controller
     public function get(Client $client)
     {
       $client->user;
-      if($client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this client',400);
+      if($client->user->id!=Auth::id() && Auth::user()->role->name!='master' && $client->client_user!=Auth::id()) return response('you dont have access to this client',400);
       $client->farms;
       $client->address;
       return $client;
