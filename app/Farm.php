@@ -15,6 +15,11 @@ class Farm extends Model
       return $this->hasMany('App\Field');
     }
 
+    public function stocks()
+    {
+      return $this->hasMany('App\Stock')->with(['stock_histories','activity_type']);
+    }
+
     public function CalculateIncome()
     {
       $this->income = 0;
@@ -51,7 +56,7 @@ class Farm extends Model
 
     public function income_histories()
     {
-      return $this->hasMany('App\IncomeHistory');
+      return $this->hasMany('App\IncomeHistory')->with(['activity','inventory_iten','sack_sold']);
     }
 
     public function inventory_itens()

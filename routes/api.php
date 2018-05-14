@@ -40,6 +40,7 @@ Route::get('/farms','FarmController@index')->middleware('auth:api');
 Route::get('/farm/{farm}','FarmController@get')->middleware('auth:api');
 Route::get('/farm/{farm}/indicators','FarmController@indicators')->middleware('auth:api');
 Route::put('/farm/{farm}','FarmController@update')->middleware('auth:api','only.user');
+Route::post('/farm/{farm}/stock','FarmController@createStock')->middleware('auth:api','only.user');
 Route::delete('/farm/{farm}','FarmController@delete')->middleware('auth:api','only.user');
 Route::post('/farms','FarmController@store')->middleware('auth:api','only.user');
 
@@ -101,5 +102,8 @@ Route::delete('/field_type/{fieldType}','FieldTypeController@delete')->middlewar
 
 Route::get('/user_token/{userToken}','UserTokenController@valid');
 Route::post('/user/register','UserController@register');
+
+Route::get('/stocks','StockController@index')->middleware('auth:api');
+Route::post('/stock/{stock}','StockController@useStock')->middleware('auth:api','only.master');
 
 Route::get('/roles','RolesController@index')->middleware('auth:api','only.master');
