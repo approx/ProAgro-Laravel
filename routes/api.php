@@ -74,6 +74,7 @@ Route::get('/activity/{activity}','ActivityController@get')->middleware('auth:ap
 Route::put('/activity/{activity}','ActivityController@update')->middleware('auth:api','only.user');
 Route::delete('/activity/{activity}','ActivityController@delete')->middleware('auth:api','only.user');
 Route::post('/activities','ActivityController@store')->middleware('auth:api','only.user');
+Route::post('/multiple-activities','ActivityController@multipleStore')->middleware('auth:api','only.user');
 
 Route::get('/unities','UnityController@index')->middleware('auth:api');
 Route::get('/unity/{unity}','UnityController@get')->middleware('auth:api');

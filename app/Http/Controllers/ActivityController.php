@@ -34,6 +34,23 @@ class ActivityController extends Controller
     return Activity::create(request()->all());
   }
 
+  public function multipleStore()
+  {
+    request()->validate([
+      'crops'=>'required',
+      'operation_date'=>'required',
+      'payment_date'=>'required',
+      'activity_type_id'=>'required',
+      'total_value'=>'required',
+      'unity_id'=>'required',
+    ]);
+    $crops = explode(';',request()->crops);
+    foreach ($crops as $crop) {
+      Activity::create(request()->all()+['crop_id'=>$crop]);
+    }
+    return 'activities saved';
+  }
+
   public function get(Activity $activity)
   {
     if($activity->crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this activity',400);
