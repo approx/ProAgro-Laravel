@@ -28,6 +28,17 @@ class FarmController extends Controller
     return $farm;
   }
 
+  public function crops(Farm $farm)
+  {
+    $crops = [];
+    foreach ($farm->fields as $field) {
+      foreach ($field->crops as $crop) {
+        array_push($crops,$crop);
+      }
+    }
+    return $crops;
+  }
+
   public function createStock(Farm $farm)
   {
     if($farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this farm',400);

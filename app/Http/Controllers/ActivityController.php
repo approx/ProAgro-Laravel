@@ -23,7 +23,32 @@ class ActivityController extends Controller
 
   public function store()
   {
+    request()->validate([
+      'crop_id'=>'required',
+      'operation_date'=>'required',
+      'payment_date'=>'required',
+      'activity_type_id'=>'required',
+      'total_value'=>'required',
+      'unity_id'=>'required',
+    ]);
     return Activity::create(request()->all());
+  }
+
+  public function multipleStore()
+  {
+    request()->validate([
+      'crops'=>'required',
+      'operation_date'=>'required',
+      'payment_date'=>'required',
+      'activity_type_id'=>'required',
+      'total_value'=>'required',
+      'unity_id'=>'required',
+    ]);
+    $crops = explode(';',request()->crops);
+    foreach ($crops as $crop) {
+      Activity::create(request()->all()+['crop_id'=>$crop]);
+    }
+    return 'activities saved';
   }
 
   public function get(Activity $activity)
