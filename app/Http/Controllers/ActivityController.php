@@ -23,6 +23,14 @@ class ActivityController extends Controller
 
   public function store()
   {
+    request()->validate([
+      'crop_id'=>'required',
+      'operation_date'=>'required',
+      'payment_date'=>'required',
+      'activity_type_id'=>'required',
+      'total_value'=>'required',
+      'unity_id'=>'required',
+    ]);
     return Activity::create(request()->all());
   }
 
