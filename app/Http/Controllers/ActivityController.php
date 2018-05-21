@@ -51,6 +51,31 @@ class ActivityController extends Controller
     return 'activities saved';
   }
 
+  public function percentageMultipleStore()
+  {
+    request()->validate([
+      'crops'=>'required',
+      'operation_date'=>'required',
+      'payment_date'=>'required',
+      'activity_type_id'=>'required',
+      'total_value'=>'required',
+      'unity_id'=>'required',
+    ]);
+    $crops = explode(';',request()->crops);
+    $sumOfSizes=0;
+    foreach ($crops as $cropId) {
+      $crop = Crop::find($cropId);
+      $sumOfSizes+= $crop->field->area;
+    }
+    foreach ($crops as $cropId) {
+      $crop = Crop::find($cropId);
+      $activity = request()->all()+['crop_id'=>$crop->id];
+      $activity['total_value'] = number_format(($crop->field->area/$sumOfSizes)*request()->total_value, 3,'.','');
+      Activity::create($activity);
+    }
+    return 'activities saved';
+  }
+
   public function get(Activity $activity)
   {
     if($activity->crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this activity',400);
