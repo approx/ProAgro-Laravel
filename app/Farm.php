@@ -54,9 +54,9 @@ class Farm extends Model
       return $area;
     }
 
-    public function income_histories()
+    public function currency()
     {
-      return $this->hasMany('App\IncomeHistory')->with(['activity','inventory_iten','sack_sold']);
+      return $this->belongsTo('App\Currency');
     }
 
     public function inventory_itens()
