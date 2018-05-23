@@ -11,7 +11,7 @@ class FarmController extends Controller
 {
   public function index()
   {
-    $farms = Farm::with(['cultures','fields','client.address','client.user','inventory_itens','income_histories.activity','income_histories.inventory_iten','income_histories.sack_sold','stocks'])->orderBy('name')->get();
+    $farms = Farm::with(['cultures','fields','client.address','client.user','inventory_itens','stocks'])->orderBy('name')->get();
     $filtered = $farms->filter(function ($value,$key) {
       return $value->client->user->id === Auth::id() || Auth::user()->role->name=='master' || $value->client->client_user == Auth::id();
     });
@@ -60,7 +60,6 @@ class FarmController extends Controller
     $farm->cultures;
     $farm->fields;
     $farm->stocks;
-    $farm->income_histories;
     $farm->client->address;
     return $farm;
   }

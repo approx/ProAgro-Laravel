@@ -29,7 +29,7 @@ class ActivityController extends Controller
       'payment_date'=>'required',
       'activity_type_id'=>'required',
       'total_value'=>'required',
-      'unity_id'=>'required',
+      'currency_id'=>'required',
     ]);
     return Activity::create(request()->all());
   }
@@ -42,7 +42,7 @@ class ActivityController extends Controller
       'payment_date'=>'required',
       'activity_type_id'=>'required',
       'total_value'=>'required',
-      'unity_id'=>'required',
+      'currency_id'=>'required',
     ]);
     $crops = explode(';',request()->crops);
     foreach ($crops as $crop) {
@@ -59,7 +59,7 @@ class ActivityController extends Controller
       'payment_date'=>'required',
       'activity_type_id'=>'required',
       'total_value'=>'required',
-      'unity_id'=>'required',
+      'currency_id'=>'required',
     ]);
     $crops = explode(';',request()->crops);
     $sumOfSizes=0;

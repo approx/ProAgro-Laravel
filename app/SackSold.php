@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SackSold extends Model
 {
-    protected $fillable=['crop_id','value','quantity'];
+    protected $fillable=['crop_id','value','quantity','currency_id'];
 
     public function crop()
     {

@@ -18,7 +18,8 @@ class Activity extends Model
     'unity_id',
     'dose',
     'crop_id',
-    'product_name'
+    'product_name',
+    'currency_id'
   ];
 
   protected $dates = [

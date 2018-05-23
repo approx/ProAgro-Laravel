@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Farm extends Model
 {
-    protected $fillable=['name','lat', 'lng','client_id','ha','value_ha','capital_tied','income','remuneration'];
+    protected $fillable=['name','lat', 'lng','client_id','ha','value_ha','capital_tied','income','remuneration','currency_id'];
 
     protected $hidden = ['client_id'];
 
@@ -54,9 +54,9 @@ class Farm extends Model
       return $area;
     }
 
-    public function income_histories()
+    public function currency()
     {
-      return $this->hasMany('App\IncomeHistory')->with(['activity','inventory_iten','sack_sold']);
+      return $this->belongsTo('App\Currency');
     }
 
     public function inventory_itens()
