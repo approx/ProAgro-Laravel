@@ -24,6 +24,9 @@ class CreateCurrenciesTable extends Migration
         Schema::table('stocks',function (Blueprint $table) {
             $table->string('currency_id',10)->default('BRL');
         });
+        Schema::table('sack_solds',function (Blueprint $table) {
+            $table->string('currency_id',10)->default('BRL');
+        });
         Schema::table('activities',function (Blueprint $table) {
             $table->string('currency_id',10)->default('BRL');
             $table->string('unity_id')->nullable()->change();
@@ -45,6 +48,9 @@ class CreateCurrenciesTable extends Migration
             $table->dropColumn('currency_id');
         });
         Schema::table('stocks',function (Blueprint $table) {
+            $table->dropColumn('currency_id');
+        });
+        Schema::table('sack_solds',function (Blueprint $table) {
             $table->dropColumn('currency_id');
         });
         Schema::table('activities',function (Blueprint $table) {

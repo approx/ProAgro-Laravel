@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class InventoryIten extends Model
 {
-    protected $fillable=['name','price','depreciation_time','depreciation_value','farm_id','sold_date','sold_price'];
+    protected $fillable=['name','price','depreciation_time','depreciation_value','farm_id','sold_date','sold_price','currency_id'];
 
     protected $dates = [
         'created_at',
