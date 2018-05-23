@@ -91,6 +91,8 @@ Route::delete('/user/{user}','UserController@delete')->middleware('auth:api','on
 Route::post('/users','UserController@store')->middleware('auth:api','only.master');
 Route::get('/current_user','UserController@actualUser')->middleware('auth:api');
 
+Route::get('/currencies','CurrencyController@index')->middleware('auth:api');
+
 Route::get('/inventories','InventoryItenController@index')->middleware('auth:api');
 Route::get('/inventory/{inventoryIten}','InventoryItenController@get')->middleware('auth:api');
 Route::post('/inventories','InventoryItenController@store')->middleware('auth:api','only.user');
