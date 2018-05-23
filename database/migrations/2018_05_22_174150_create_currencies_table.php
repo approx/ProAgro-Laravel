@@ -19,16 +19,16 @@ class CreateCurrenciesTable extends Migration
             $table->timestamps();
         });
         Schema::table('farms',function (Blueprint $table) {
-            $table->string('currency_id',10)->default('R$');
+            $table->string('currency_id',10)->default('BRL');
         });
         Schema::table('stocks',function (Blueprint $table) {
-            $table->string('currency_id',10)->default('R$');
+            $table->string('currency_id',10)->default('BRL');
         });
         Schema::table('activities',function (Blueprint $table) {
-            $table->string('currency_id',10)->default('R$');
+            $table->string('currency_id',10)->default('BRL');
         });
         Schema::table('inventory_itens',function (Blueprint $table) {
-            $table->string('currency_id',10)->default('R$');
+            $table->string('currency_id',10)->default('BRL');
         });
     }
 
