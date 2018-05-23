@@ -26,6 +26,7 @@ class CreateCurrenciesTable extends Migration
         });
         Schema::table('activities',function (Blueprint $table) {
             $table->string('currency_id',10)->default('BRL');
+            $table->string('unity_id')->nullable()->change();
         });
         Schema::table('inventory_itens',function (Blueprint $table) {
             $table->string('currency_id',10)->default('BRL');
@@ -40,5 +41,18 @@ class CreateCurrenciesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('currencies');
+        Schema::table('farms',function (Blueprint $table) {
+            $table->dropColumn('currency_id');
+        });
+        Schema::table('stocks',function (Blueprint $table) {
+            $table->dropColumn('currency_id');
+        });
+        Schema::table('activities',function (Blueprint $table) {
+            $table->dropColumn('currency_id');
+            $table->string('unity_id')->nullable(false)->change();
+        });
+        Schema::table('inventory_itens',function (Blueprint $table) {
+            $table->dropColumn('currency_id');
+        });
     }
 }

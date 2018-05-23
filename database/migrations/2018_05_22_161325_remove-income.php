@@ -32,6 +32,23 @@ class RemoveIncome extends Migration
      */
     public function down()
     {
-        //
+      Schema::create('income_histories', function (Blueprint $table) {
+          $table->increments('id');
+          $table->integer('farm_id');
+          $table->boolean('expense');
+          $table->double('value');
+          $table->date('date');
+          $table->text('description');
+          $table->timestamps();
+      });
+      Schema::table('activities', function (Blueprint $table) {
+        $table->integer('income_id');
+      });
+      Schema::table('inventory_itens', function (Blueprint $table) {
+        $table->integer('income_id');
+      });
+      Schema::table('sack_solds', function (Blueprint $table) {
+        $table->integer('income_id');
+      });
     }
 }
