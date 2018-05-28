@@ -43,12 +43,17 @@ class InventoryItenController extends Controller
 
     public function sell(InventoryIten $inventoryIten)
     {
+      request()->validate([
+        'sold_price'=>'required',
+        'sold_date'=>'required',
+        'propagateByProduction'=>'required',
+        'crops'=>'required'
+      ]);
       $inventoryIten->sold_price = request()->sold_price;
       $inventoryIten->sold_date = request()->sold_date;
       $inventoryIten->sold = true;
-      $income = IncomeHistory::create(['farm_id'=>$inventoryIten->farm->id,'value'=>$inventoryIten->sold_price,'date'=>$inventoryIten->sold_date,'description'=>'Iten vendido: '.$inventoryIten->name,'expense'=>false]);
-      $inventoryIten->income_id = $income->id;
-      $inventoryIten->farm->CalculateIncome();
+      $inventoryIten->propagateByProduction = request()->propagateByProduction;
+      $inventoryIten->crops_sold()->attach(explode(';',request()->crops));
       $inventoryIten->save();
       return 'iten selled';
     }
