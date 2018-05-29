@@ -62,6 +62,7 @@ Route::put('/crop/{crop}','CropController@update')->middleware('auth:api','only.
 Route::delete('/crop/{crop}','CropController@delete')->middleware('auth:api','only.user');
 Route::post('/crops','CropController@store')->middleware('auth:api','only.user');
 Route::post('/crop/{crop}/sold_sack','CropController@register_sack')->middleware('auth:api','only.user');
+Route::post('/crop/{crop}/update_values','CropController@update_values')->middleware('auth:api','only.user');
 
 Route::get('/activity_types','ActivityTypeController@index')->middleware('auth:api');
 Route::get('/activity_type/{activity_type}','ActivityTypeController@get')->middleware('auth:api');

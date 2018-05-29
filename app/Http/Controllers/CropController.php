@@ -38,6 +38,18 @@ class CropController extends Controller
     return $crop;
   }
 
+  public function update_values(Crop $crop)
+  {
+    request()->validate([
+      'interest_tax'=>'required'
+    ]);
+
+    $crop->interest_tax = request()->interest_tax;
+    $crop->sack_value = request()->sack_value;
+    $crop->save();
+    return $crop;
+  }
+
   public function get(Crop $crop)
   {
     if($crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master' && $crop->field->farm->client->client_user!=Auth::id()) return response('you dont have access to this crop',400);
