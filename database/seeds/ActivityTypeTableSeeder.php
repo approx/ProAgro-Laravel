@@ -53,6 +53,7 @@ class ActivityTypeTableSeeder extends Seeder
           ['id'=>'ADM16','name'=>'Correios','unity_id'=>'R$'],
           ['id'=>'ADM17','name'=>'Deslocamento do produtor','unity_id'=>'R$'],
           ['id'=>'ADM18','name'=>'Despesas gerais de escritório','unity_id'=>'R$'],
+          ['id'=>'ADM19','name'=>'Conservação de máquinas','unity_id'=>'R$'],
           ['id'=>'PRO01','name'=>'Pro Agro','unity_id'=>'R$'],
           ['id'=>'GT01','name'=>'Frete/Deslocamento','unity_id'=>'R$'],
           ['id'=>'GT02','name'=>'Impostos e taxas','unity_id'=>'R$'],

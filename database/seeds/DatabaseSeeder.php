@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CultureTableSeeder::class);
         $this->call(UnityTableSeeder::class);
         $this->call(CurrenciesTableSeeder::class);
+        $this->call(GroupTableSeeder::class);
     }
 }
