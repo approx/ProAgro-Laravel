@@ -9,7 +9,7 @@ class ActivityTypeController extends Controller
 {
   public function index()
   {
-    return ActivityType::with(['unity'])->get();
+    return ActivityType::with(['unity','group'])->get();
   }
 
   public function store()

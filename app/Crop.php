@@ -40,7 +40,7 @@ class Crop extends Model
 
     public function activities()
     {
-      return $this->hasMany('App\Activity')->with(['activity_type','unity']);
+      return $this->hasMany('App\Activity')->with(['activity_type.group','unity']);
     }
 
     public function inventory_itens()

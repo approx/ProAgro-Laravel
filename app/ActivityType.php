@@ -19,4 +19,9 @@ class ActivityType extends Model
     {
       return $this->belongsTo('App\Unity');
     }
+
+    public function group()
+    {
+      return $this->belongsTo('App\Group_activity','group_id');
+    }
 }
