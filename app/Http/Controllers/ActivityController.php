@@ -13,7 +13,7 @@ class ActivityController extends Controller
 {
   public function index()
   {
-    $activities = Activity::with(['crop.field.farm.client.user:id','activity_type','unity'])->get();
+    $activities = Activity::with(['crop.field.farm.client.user:id','activity_type.group','unity'])->get();
     $filtered = $activities->filter(function($value,$key){
       return $value->crop->field->farm->client->user->id === Auth::id() || Auth::user()->role->name=='master' || $value->crop->field->farm->client->client_user===Auth::id();
     });
@@ -80,7 +80,7 @@ class ActivityController extends Controller
   {
     if($activity->crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this activity',400);
     $activity->crop->field->farm->client;
-    $activity->activity_type;
+    $activity->activity_type->group;
     $activity->unity;
     return $activity;
   }
