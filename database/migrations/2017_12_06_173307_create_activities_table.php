@@ -17,7 +17,7 @@ class CreateActivitiesTable extends Migration
             $table->increments('id');
             $table->date('operation_date');
             $table->date('payment_date');
-            $table->string('product_name');
+            $table->string('product_name')->nullable();;
             $table->string('activity_type_id',10);
             $table->double('total_value');
             $table->double('value_per_ha')->nullable();

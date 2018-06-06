@@ -8,6 +8,8 @@ use App\Crop;
 use App\Field;
 use App\SackSold;
 use App\IncomeHistory;
+use App\Activity;
+use App\InventoryIten;
 use Illuminate\Support\Facades\Auth;
 
 class CropController extends Controller
@@ -59,6 +61,72 @@ class CropController extends Controller
     $crop->sack_solds;
     $crop->inventory_itens;
     return $crop;
+  }
+
+  public function sumCrops()
+  {
+    request()->validate([
+      'interest_rate'=>'required',
+    ]);
+
+
+    $sumValues=['area'=>0,'production'=>0,'grossIncome'=>0,'activitiesTotal'=>0,'depreciation'=>0,'inventoryTotal'=>0,'capital_tied'=>0,'capital_tied_remunaration'=>0,'activitiesTypes'=>[]];
+
+    $startDate=null;
+    $lastDate=null;
+    if(!isset(request()->cropsIds)){ return $sumValues; }
+
+    $ids = explode(';',request()->cropsIds);
+    foreach ($ids as $id) {
+      $crop = Crop::find($id);
+      if($startDate==null){
+        $startDate = $crop->initial_date;
+      }else {
+        if($crop->initial_date->lessThan($startDate)){
+          $startDate = $crop->initial_date;
+        }
+      }
+      if($lastDate==null){
+        $lastDate = $crop->final_date;
+      }else {
+        if($crop->final_date->greaterThan($lastDate)){
+          $lastDate = $crop->final_date;
+        }
+      }
+      $sumValues['area']+=$crop->field->area;
+      $sumValues['production']+=$crop->sack_produced;
+      $sumValues['grossIncome']+=$crop->gross_income['total'];
+      $activities = Activity::where('crop_id',$id)->get();
+      foreach ($activities as $acitvity) {
+        $sumValues['activitiesTotal']+=$acitvity->total_value;
+        $seted=false;
+        foreach ($sumValues['activitiesTypes'] as $types) {
+          if($types['name']==$acitvity->activity_type->group->name){
+            $types['value']+=$acitvity->total_value;
+            $seted=true;
+            break;
+          }
+        }
+        if($seted==false){
+          array_push($sumValues['activitiesTypes'],['name'=>$acitvity->activity_type->group->name,'value'=>$acitvity->total_value]);
+        }
+      }
+      // $sumValues['activitiesTotal']+=Activity::where('crop_id',$id)->sum('total_value');
+
+      $inventoryItenSum = 0;
+      foreach ($crop->inventory_itens as $iten) {
+        $inventoryItenSum+=$iten->depreciation_value;
+        $sumValues['inventoryTotal']+=$iten->price;
+      }
+      $sumValues['depreciation']+=$inventoryItenSum;
+    }
+    $lastDate = $lastDate->min(new Carbon());
+    $diffMonths = $startDate->diffInMonths($lastDate);
+    $sumValues['depreciation']*=$diffMonths;
+    $sumValues['capital_tied'] = $crop->field->farm->capital_tied;
+    $sumValues['capital_tied_remunaration'] = ($crop->field->farm->capital_tied*request()->interest_rate)*$diffMonths;
+
+    return $sumValues;
   }
 
   public function register_sack(Crop $crop)

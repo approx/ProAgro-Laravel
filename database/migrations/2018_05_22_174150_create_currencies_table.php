@@ -55,7 +55,7 @@ class CreateCurrenciesTable extends Migration
         });
         Schema::table('activities',function (Blueprint $table) {
             $table->dropColumn('currency_id');
-            $table->string('unity_id')->nullable(false)->change();
+            $table->string('unity_id')->nullable()->change();
         });
         Schema::table('inventory_itens',function (Blueprint $table) {
             $table->dropColumn('currency_id');

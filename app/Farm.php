@@ -12,7 +12,9 @@ class Farm extends Model
 
     public function fields()
     {
-      return $this->hasMany('App\Field');
+      return $this->hasMany('App\Field')->with(['crops'=>function($query){
+        $query->orderBy('final_date');
+      }]);
     }
 
     public function stocks()

@@ -57,6 +57,7 @@ Route::delete('/field/{field}','FieldController@delete')->middleware('auth:api',
 Route::post('/fields','FieldController@store')->middleware('auth:api','only.user');
 
 Route::get('/crops','CropController@index')->middleware('auth:api');
+Route::post('/sum_crops','CropController@sumCrops')->middleware('auth:api');
 Route::get('/crop/{crop}','CropController@get')->middleware('auth:api');
 Route::put('/crop/{crop}','CropController@update')->middleware('auth:api','only.user');
 Route::delete('/crop/{crop}','CropController@delete')->middleware('auth:api','only.user');
