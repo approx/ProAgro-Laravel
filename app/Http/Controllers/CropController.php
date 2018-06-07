@@ -52,16 +52,35 @@ class CropController extends Controller
     return $crop;
   }
 
+  public function update_inventory_itens(Crop $crop)
+  {
+    request()->validate([
+      'inventory_itens'=>'required'
+    ]);
+
+    $crop->inventory_itens()->detach();
+
+    $inventoryItens = explode(';',request()->inventory_itens);
+
+    foreach ($inventoryItens as $item) {
+      $crop->inventory_itens()->attach($item);
+    }
+
+    return 'inventory iten actualized';
+  }
+
   public function get(Crop $crop)
   {
     if($crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master' && $crop->field->farm->client->client_user!=Auth::id()) return response('you dont have access to this crop',400);
     $crop->culture;
     $crop->activities;
-    //$crop->field->farm->client;
+    $crop->field->farm->inventory_itens;
     $crop->sack_solds;
     $crop->inventory_itens;
     return $crop;
   }
+
+
 
   public function sumCrops()
   {
