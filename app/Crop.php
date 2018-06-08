@@ -71,7 +71,7 @@ class Crop extends Model
       $returnValue=['total'=>0,'history'=>[]];
       foreach ($this->sack_solds as $sack) {
         $total = $sack->quantity*$sack->value;
-        array_push($returnValue['history'],['description'=>$sack->quantity.' sacas vendidas','total'=>$total,'currency_id'=>$sack->currency_id]);
+        array_push($returnValue['history'],['description'=>$sack->quantity.' sacas vendidas','total'=>$total,'currency_id'=>$sack->currency_id,'delete_url'=>'sack_sold/'.$sack->id]);
         $returnValue['total']+=$total;
       }
       foreach ($this->inventory_itens_sold as $iten) {

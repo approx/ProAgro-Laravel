@@ -108,6 +108,8 @@ Route::get('/field_type/{fieldType}','FieldTypeController@get')->middleware('aut
 Route::post('/field_types','FieldTypeController@store')->middleware('auth:api','only.user');
 Route::delete('/field_type/{fieldType}','FieldTypeController@delete')->middleware('auth:api','only.user');
 
+Route::delete('/sack_sold/{sack_sold}','SackSoldController@delete')->middleware('auth:api','only.user');
+
 Route::get('/user_token/{userToken}','UserTokenController@valid');
 Route::post('/user/register','UserController@register');
 
