@@ -53,6 +53,11 @@ class FarmController extends Controller
     return Stock::create(request()->all()+['farm_id'=>$farm->id]);
   }
 
+  public function getStocks(Farm $farm)
+  {
+    return $farm->stocks;
+  }
+
   public function get(Farm $farm)
   {
     if($farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master' && $farm->client->client_user!=Auth::id()) return response('you dont have access to this farm',400);
