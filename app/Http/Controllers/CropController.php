@@ -52,6 +52,17 @@ class CropController extends Controller
     return $crop;
   }
 
+  public function addDescription(Crop $crop)
+  {
+    request()->validate([
+      'description'=>'required'
+    ]);
+
+    $crop->description=request()->description;
+    $crop->save();
+    return $crop;
+  }
+
   public function update_inventory_itens(Crop $crop)
   {
     request()->validate([

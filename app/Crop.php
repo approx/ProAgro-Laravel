@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class Crop extends Model
 {
-    protected $fillable = ['field_id','initial_date','final_date','culture_id','name','sack_expected','sack_produced','sack_value','interest_tax'];
+    protected $fillable = ['field_id','initial_date','final_date','culture_id','name','sack_expected','sack_produced','sack_value','interest_tax','description'];
 
     protected $dates = [
         'created_at',
