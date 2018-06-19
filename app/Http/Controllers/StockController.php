@@ -8,6 +8,7 @@ use App\Stock;
 use App\Activity;
 use App\StockHIstory;
 use Illuminate\Support\Facades\Auth;
+use App\Log;
 
 class StockController extends Controller
 {
@@ -32,7 +33,7 @@ class StockController extends Controller
 
     public function useStock(Stock $stock)
     {
-
+      $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/stock/'.$stock->id,'action'=>'update','request'=>request()->getContent()]);
       request()->validate([
         'crop_id'=>'required',
         'quantity'=>'required|max:'.$stock->quantity,
@@ -60,7 +61,7 @@ class StockController extends Controller
       } catch (\Exception $e) {
         $activity->delete();
       }
-
+      $log->done();
       return $activity;
 
     }

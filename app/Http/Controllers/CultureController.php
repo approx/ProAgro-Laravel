@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Log;
 use App\Culture;
 
 class CultureController extends Controller
@@ -19,7 +20,9 @@ class CultureController extends Controller
 
     public function delete(Culture $culture)
     {
+      $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/cultures/'.$culture->id,'action'=>'delete','request'=>request()->getContent()]);
       $culture->delete();
+      $log->done();
       return 'Culture deleted';
     }
 
@@ -30,7 +33,10 @@ class CultureController extends Controller
 
     public function store()
     {
-      return Culture::create(request()->all());
+      $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/cultures','action'=>'create','request'=>request()->getContent()]);
+      $culture = Culture::create(request()->all());
+      $log->done();
+      return $culture;
     }
 
     public function crops(Culture $culture)

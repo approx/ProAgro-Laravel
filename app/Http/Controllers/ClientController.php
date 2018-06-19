@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Database\QueryException;
 use App\Client;
 use Illuminate\Support\Facades\Auth;
+use App\Log;
 
 class ClientController extends Controller
 {
@@ -19,7 +20,10 @@ class ClientController extends Controller
 
     public function store()
     {
-      return Client::create(request()->all());
+      $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/clients','action'=>'create','request'=>request()->getContent()]);
+      $client = Client::create(request()->all());
+      $log->done();
+      return $client;
     }
 
     public function get(Client $client)
@@ -33,18 +37,22 @@ class ClientController extends Controller
 
     public function update(Client $client)
     {
+      $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/client/'.$client->id,'action'=>'update','request'=>request()->getContent()]);
       $client->user;
       if($client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this client',400);
       $client->fill(request()->all());
       $client->save();
+      $log->done();
       return $client;
     }
 
     public function delete(Client $client)
     {
+      $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/client/'.$client->id,'action'=>'delete','request'=>request()->getContent()]);
       $client->user;
       if($client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this client',400);
       $client->delete();
+      $log->done();
       return 'client deleted';
     }
 }

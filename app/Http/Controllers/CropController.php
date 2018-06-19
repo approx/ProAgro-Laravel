@@ -10,6 +10,7 @@ use App\SackSold;
 use App\IncomeHistory;
 use App\Activity;
 use App\InventoryIten;
+use App\Log;
 use Illuminate\Support\Facades\Auth;
 
 class CropController extends Controller
@@ -26,6 +27,7 @@ class CropController extends Controller
 
   public function store()
   {
+    $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/crops','action'=>'create','request'=>request()->getContent()]);
     // echo json_encode(request()->final_date);
     $crop =  Crop::create(request()->all());
     if(request()->itens){
@@ -37,6 +39,7 @@ class CropController extends Controller
       $field->actual_crop = $crop->id;
       $field->save();
     }
+    $log->done();
     return $crop;
   }
 
@@ -54,17 +57,20 @@ class CropController extends Controller
 
   public function addDescription(Crop $crop)
   {
+    $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/crop/'.$crop->id.'/add_description','action'=>'update','request'=>request()->getContent()]);
     request()->validate([
       'description'=>'required'
     ]);
 
     $crop->description=request()->description;
     $crop->save();
+    $log->done();
     return $crop;
   }
 
   public function update_inventory_itens(Crop $crop)
   {
+    $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/crop/'.$crop->id.'/update_inventory_itens','action'=>'update','request'=>request()->getContent()]);
     request()->validate([
       'inventory_itens'=>'required'
     ]);
@@ -76,7 +82,7 @@ class CropController extends Controller
     foreach ($inventoryItens as $item) {
       $crop->inventory_itens()->attach($item);
     }
-
+    $log->done();
     return 'inventory iten actualized';
   }
 
@@ -161,25 +167,31 @@ class CropController extends Controller
 
   public function register_sack(Crop $crop)
   {
+    $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/crop/'.$crop->id.'/sold_sack','action'=>'create','request'=>request()->getContent()]);
     if($crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this crop',400);
     $sackSold = SackSold::create(['crop_id'=>$crop->id,'quantity'=>request()->quantity,'value'=>request()->value]);
+    $log->done();
     return $sackSold;
   }
 
   public function update(Crop $crop)
   {
+    $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/crop/'.$crop->id,'action'=>'update','request'=>request()->getContent()]);
     if($crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this crop',400);
 
     $crop->fill(request()->all());
     $crop->save();
+    $log->done();
     return $crop;
   }
 
   public function delete(Crop $crop)
   {
+    $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/crop/'.$crop->id,'action'=>'delete','request'=>request()->getContent()]);
     if($crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this crop',400);
 
     $crop->delete();
+    $log->done();
     return 'crop deleted';
   }
 }

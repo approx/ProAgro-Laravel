@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Field;
 use Illuminate\Support\Facades\Auth;
+use App\Log;
 
 class FieldController extends Controller
 {
@@ -20,7 +21,10 @@ class FieldController extends Controller
 
   public function store()
   {
-    return Field::create(request()->all());
+    $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/fields','action'=>'create','request'=>request()->getContent()]);
+    $field = Field::create(request()->all());
+    $log->done();
+    return $field;
   }
 
   public function get(Field $field)
@@ -37,16 +41,20 @@ class FieldController extends Controller
 
   public function update(Field $field)
   {
+    $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/field/'.$field->id,'action'=>'update','request'=>request()->getContent()]);
     if($field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this field',400);
     $field->fill(request()->all());
     $field->save();
+    $log->done();
     return $field;
   }
 
   public function delete(Field $field)
   {
+    $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/field/'.$field->id,'action'=>'delete','request'=>request()->getContent()]);
     if($field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this field',400);
     $field->delete();
+    $log->done();
     return 'field deleted';
   }
 }

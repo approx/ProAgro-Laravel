@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Farm;
 use App\Stock;
+use App\Log;
 use Illuminate\Support\Facades\Auth;
 
 class FarmController extends Controller
@@ -21,10 +22,12 @@ class FarmController extends Controller
 
   public function store()
   {
+    $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/farms','action'=>'create','request'=>request()->getContent()]);
     $farm = Farm::create(request()->all());
     if(request()->cultures){
       $farm->cultures()->attach(preg_split("/;/",request()->cultures));
     }
+    $log->done();
     return $farm;
   }
 
@@ -41,6 +44,7 @@ class FarmController extends Controller
 
   public function createStock(Farm $farm)
   {
+    $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/farm/'.$farm->id.'/stock','action'=>'update','request'=>request()->getContent()]);
     if($farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this farm',400);
 
     request()->validate([
@@ -49,7 +53,7 @@ class FarmController extends Controller
       'unity_value'=>'required',
       'product_name'=>'required'
     ]);
-
+    $log->done();
     return Stock::create(request()->all()+['farm_id'=>$farm->id]);
   }
 
@@ -76,18 +80,22 @@ class FarmController extends Controller
 
   public function update(Farm $farm)
   {
+    $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/farm/'.$farm->id,'action'=>'update','request'=>request()->getContent()]);
     if($farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this farm',400);
     $farm->fill(request()->all());
     $farm->cultures()->detach();
     $farm->cultures()->attach(preg_split("/;/",request()->cultures));
     $farm->save();
+    $log->done();
     return $farm;
   }
 
   public function delete(Farm $farm)
   {
+    $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/farm/'.$farm->id,'action'=>'delete','request'=>request()->getContent()]);
     if($farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this farm',400);
     $farm->delete();
+    $log->done();
     return 'Farm deleted';
   }
 }
