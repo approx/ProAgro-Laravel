@@ -3,12 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Field;
 
 class Farm extends Model
 {
     protected $fillable=['name','lat', 'lng','client_id','ha','value_ha','capital_tied','income','remuneration','currency_id'];
 
     protected $hidden = ['client_id'];
+    protected $appends = ['area_planted'];
 
     public function fields()
     {
@@ -47,8 +49,8 @@ class Farm extends Model
       return $area;
     }
 
-    public function FieldAreas(){
-      $fields = $this->fields;
+    public function getAreaPlantedAttribute(){
+      $fields = Field::where('farm_id',$this->id)->get();
       $area = 0;
       foreach ($fields as $field) {
         $area+=$field->area;

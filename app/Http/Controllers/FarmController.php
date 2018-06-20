@@ -16,7 +16,6 @@ class FarmController extends Controller
     $filtered = $farms->filter(function ($value,$key) {
       return $value->client->user->id === Auth::id() || Auth::user()->role->name=='master' || $value->client->client_user == Auth::id();
     });
-
     return $filtered->values();
   }
 
