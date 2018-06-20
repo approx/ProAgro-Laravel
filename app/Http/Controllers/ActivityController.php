@@ -8,6 +8,8 @@ use App\IncomeHistory;
 use App\ActivityType;
 use App\Crop;
 use App\Log;
+use App\Farm;
+use App\PropagateActivity;
 use Illuminate\Support\Facades\Auth;
 
 class ActivityController extends Controller
@@ -45,14 +47,41 @@ class ActivityController extends Controller
       'operation_date'=>'required',
       'payment_date'=>'required',
       'activity_type_id'=>'required',
-      'total_value'=>'required'
+      'total_value'=>'required',
+      'farm_id'=>'required'
     ]);
     $crops = explode(';',request()->crops);
-    foreach ($crops as $crop) {
-      Activity::create(request()->all()+['crop_id'=>$crop]);
+    $activitiesIds='';
+    $farm = Farm::find(request()->farm_id);
+    foreach ($crops as $cropId) {
+      $currency;
+      if($farm->currency_id=='USD'){
+        $currency='$ ';
+      }else {
+        $currency='R$ ';
+      }
+      $activityType = ActivityType::find(request()->activity_type_id);
+      $crop = Crop::find($cropId);
+      if(isset(request()->product_name)){
+        $activity = request()->all()+['crop_id'=>$crop->id];
+        $activity['product_name'] ='Rateio completo - '.request()->product_name;
+      }else {
+        $activity = request()->all()+['crop_id'=>$crop->id,'product_name'=>'Rateio completo - '.$activityType->name];
+      }
+      $activity=Activity::create($activity);
+      $activitiesIds = $activitiesIds.$activity->id.';';
     }
+    $activitiesIds = substr($activitiesIds,0,-1);
+    PropagateActivity::create(['farm_id'=>request()->farm_id,'activities_ids'=>$activitiesIds,'total_value'=>request()->total_value]);
     $log->done();
     return 'activities saved';
+  }
+
+  function moeda($get_valor) {
+    $source = array('.', ',');
+    $replace = array('', '.');
+    $valor = str_replace($source, $replace, $get_valor); //remove os pontos e substitui a virgula pelo ponto
+    return $valor; //retorna o valor formatado para gravar no banco
   }
 
   public function percentageMultipleStore()
@@ -63,20 +92,35 @@ class ActivityController extends Controller
       'operation_date'=>'required',
       'payment_date'=>'required',
       'activity_type_id'=>'required',
-      'total_value'=>'required'
+      'total_value'=>'required',
+      'farm_id'=>'required'
     ]);
     $crops = explode(';',request()->crops);
-    $sumOfSizes=0;
+    $sumOfSizes=Farm::find(request()->farm_id)->area_planted;
+    $activitiesIds='';
+    $farm = Farm::find(request()->farm_id);
     foreach ($crops as $cropId) {
+      $currency;
+      if($farm->currency_id=='USD'){
+        $currency='$ ';
+      }else {
+        $currency='R$ ';
+      }
       $crop = Crop::find($cropId);
-      $sumOfSizes+= $crop->field->area;
-    }
-    foreach ($crops as $cropId) {
-      $crop = Crop::find($cropId);
-      $activity = request()->all()+['crop_id'=>$crop->id];
+      $activityType = ActivityType::find(request()->activity_type_id);
+      if(isset(request()->product_name)){
+        $activity = request()->all()+['crop_id'=>$crop->id];
+        $activity['product_name'] ='Rateade de '.$currency.number_format(request()->total_value,2,',','.').' - '.request()->product_name;
+      }else {
+        $activity = request()->all()+['crop_id'=>$crop->id,'product_name'=>'Rateade de '.$currency.number_format(request()->total_value,2,',','.').' - '.$activityType->name];
+      }
+      // return $activity;
       $activity['total_value'] = number_format(($crop->field->area/$sumOfSizes)*request()->total_value, 3,'.','');
-      Activity::create($activity);
+      $activityCreate = Activity::create($activity);
+      $activitiesIds = $activitiesIds.$activityCreate->id.';';
     }
+    $activitiesIds = substr($activitiesIds,0,-1);
+    PropagateActivity::create(['farm_id'=>request()->farm_id,'activities_ids'=>$activitiesIds,'total_value'=>request()->total_value]);
     $log->done();
     return 'activities saved';
   }

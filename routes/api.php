@@ -98,6 +98,8 @@ Route::get('/current_user','UserController@actualUser')->middleware('auth:api');
 
 Route::get('/currencies','CurrencyController@index')->middleware('auth:api');
 
+Route::delete('/propagate/{propagateActivity}','PropagateActivityController@delete')->middleware('auth:api','only.user');
+
 Route::get('/inventories','InventoryItenController@index')->middleware('auth:api');
 Route::get('/inventory/{inventoryIten}','InventoryItenController@get')->middleware('auth:api');
 Route::post('/inventories','InventoryItenController@store')->middleware('auth:api','only.user');

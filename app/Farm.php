@@ -19,6 +19,11 @@ class Farm extends Model
       }]);
     }
 
+    public function propagate_activities()
+    {
+      return $this->hasMany('App\PropagateActivity');
+    }
+
     public function stocks()
     {
       return $this->hasMany('App\Stock')->with(['stock_histories','activity_type']);
