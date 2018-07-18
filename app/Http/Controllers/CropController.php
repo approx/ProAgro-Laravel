@@ -189,7 +189,7 @@ class CropController extends Controller
   {
     $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/crop/'.$crop->id,'action'=>'delete','request'=>request()->getContent()]);
     if($crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this crop',400);
-
+    
     $crop->delete();
     $log->done();
     return 'crop deleted';

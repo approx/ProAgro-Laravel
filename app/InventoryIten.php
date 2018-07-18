@@ -49,6 +49,8 @@ class InventoryIten extends Model
 
     public function setSoldDateAttribute($value)
     {
-      $this->attributes['sold_date'] = Carbon::createFromFormat('d/m/Y',$value,'America/Sao_Paulo');
+        if($value!=null){
+            $this->attributes['sold_date'] = Carbon::createFromFormat('d/m/Y',$value,'America/Sao_Paulo');
+        }
     }
 }
