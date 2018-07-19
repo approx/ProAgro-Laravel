@@ -15,7 +15,7 @@ class CreateInventoryItensTable extends Migration
     {
         Schema::create('inventory_itens', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name',15);
+            $table->string('name',50);
             $table->double('price');
             $table->integer('depreciation_time');
             $table->double('depreciation_value');
