@@ -106,7 +106,7 @@ class CropController extends Controller
     ]);
 
 
-    $sumValues=['area'=>0,'production'=>0,'grossIncome'=>0,'activitiesTotal'=>0,'depreciation'=>0,'inventoryTotal'=>0,'capital_tied'=>0,'capital_tied_remunaration'=>0,'activitiesTypes'=>[]];
+    $sumValues=['area'=>0,'production'=>0,'grossIncome'=>0,'activitiesTotal'=>0,'depreciation'=>0,'totalDepreciation'=>0,'inventoryTotal'=>0,'capital_tied'=>0,'capital_tied_remunaration'=>0,'activitiesTypes'=>[]];
 
     $startDate=null;
     $lastDate=null;
@@ -150,17 +150,21 @@ class CropController extends Controller
       // $sumValues['activitiesTotal']+=Activity::where('crop_id',$id)->sum('total_value');
 
       $inventoryItenSum = 0;
+      // dd($crop->inventory_itens);
       foreach ($crop->inventory_itens as $iten) {
-        $inventoryItenSum+=$iten->depreciation_value;
+        $inventoryItenSum+=$iten->depreciation_value*($crop->field->area/$crop->field->farm->area_planted);
         $sumValues['inventoryTotal']+=$iten->price;
       }
       $sumValues['depreciation']+=$inventoryItenSum;
     }
     $lastDate = $lastDate->min(new Carbon());
     $diffMonths = $startDate->diffInMonths($lastDate);
-    $sumValues['depreciation']*=$diffMonths;
+    $sumValues['totalDepreciation']+=$sumValues['depreciation']*$diffMonths;
+    // dd($inventoryItenSum);
+    // $sumValues['depreciation']*=$diffMonths;
     $sumValues['capital_tied'] = $crop->field->farm->capital_tied;
-    $sumValues['capital_tied_remunaration'] = ($crop->field->farm->capital_tied*request()->interest_rate)*$diffMonths;
+    $sumValues['remunaration'] = ($crop->field->farm->capital_tied*request()->interest_rate)/100;
+    $sumValues['totalRemunaration'] = $sumValues['remunaration']*$diffMonths;
 
     return $sumValues;
   }
@@ -189,7 +193,7 @@ class CropController extends Controller
   {
     $log = Log::create(['user_name'=>Auth::user()->name,'user_id'=>Auth::user()->id,'route'=>'/crop/'.$crop->id,'action'=>'delete','request'=>request()->getContent()]);
     if($crop->field->farm->client->user->id!=Auth::id() && Auth::user()->role->name!='master') return response('you dont have access to this crop',400);
-    
+
     $crop->delete();
     $log->done();
     return 'crop deleted';
